@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "780651433656",
+    "project_id": "rnpractise",
+    "storage_bucket": "rnpractise.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780651433656:android:1795b3b9ac9de5700d6e4d",
+        "android_client_info": {
+          "package_name": "com.rnpractise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780651433656-ug2csk3q35gsi2cdkcn93cv4eogtkudr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rnpractise",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "780651433656-0fjujud7ok89u8qn9a889srs1dhuogd3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCW5WK3XaUs4R8I-SWkfKRhAfgSNSCqY4Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780651433656-0fjujud7ok89u8qn9a889srs1dhuogd3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
