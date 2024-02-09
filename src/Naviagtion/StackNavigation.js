@@ -18,7 +18,11 @@ import ChangePassword from '../screens/ChangePassword';
 import BottomModal from '../screens/BottomModal';
 import ProfileDetailsScreen from '../screens/ProfileDetailsScreen';
 import Notifications from '../screens/Notifications';
-
+import GameScreen from '../screens/GameScreen';
+import GameResultScreen from '../screens/GameResultScreen';
+import InitialGameScreen from '../screens/InitialGameScreen';
+import UserChoiceScreen from '../screens/UserChoiceScreen';
+import CommonHeader from '../screens/CommonHeader';
 
 const Stack = createStackNavigator();
 
@@ -29,41 +33,27 @@ const StackNavigation = () => {
         screenOptions={{
           headerShown: false,
         }}>
-        
-
-              <Stack.Screen name="SplashScreen" component={SplashScreen} />
-              <Stack.Screen name="Notifications" component={Notifications} />
-         
-              {/* <Stack.Screen name="BottomModal" component={BottomModal} /> */}
-              <Stack.Screen name="ProfileDetailsScreen" component={ProfileDetailsScreen} />
-
-              <Stack.Screen name="VerifyOtpScreen" component={VerifyOtpScreen} />
-              <Stack.Screen name="AccountScreen" component={AccountScreen} />  
-           <Stack.Screen name="ChangePassword" component={ChangePassword} />
-               
-           <Stack.Screen name="EmailVerify" component={EmailVerify} /> 
-           <Stack.Screen name="SendOtpScreen" component={SendOtpScreen} />
-
-           <Stack.Screen name="DrawerNavigation" component={DrawerNavigation} />
-           <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
+        <Stack.Screen name="InitialGameScreen" component={InitialGameScreen} />
+        <Stack.Screen name="GameResultScreen" component={GameResultScreen} />
+        <Stack.Screen name="GameScreen" component={GameScreen} />
+        <Stack.Screen name="Notifications" component={Notifications} />
+        <Stack.Screen name="ProfileDetailsScreen" component={ProfileDetailsScreen}/>
+        <Stack.Screen name="VerifyOtpScreen" component={VerifyOtpScreen} />
+        <Stack.Screen name="AccountScreen" component={AccountScreen} />
+        <Stack.Screen name="ChangePassword" component={ChangePassword} />
+        <Stack.Screen name="UserChoiceScreen" component={UserChoiceScreen} />
+        <Stack.Screen name="EmailVerify" component={EmailVerify} />
+        <Stack.Screen name="SendOtpScreen" component={SendOtpScreen} />
+        <Stack.Screen name="DrawerNavigation" component={DrawerNavigation} />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="FirebaseLogin" component={FirebaseLogin} />
-        
-    
-        {/* <Stack.Screen name="SendOtpScreen" component={SendOtpScreen} /> */}
-        {/* <Stack.Screen name="SplashScreen" component={SplashScreen} /> */}
-        <Stack.Screen
-          name="RegisterationScreen"
-          component={RegisterationScreen}
-        />
-       
+
+        <Stack.Screen name="RegisterationScreen" component={RegisterationScreen}/>
         <Stack.Screen name="CreateScreen" component={CreateScreen} />
-        <Stack.Screen
-          name="RealtimeDatabasePractise"
-          component={RealtimeDatabasePractise}
-        />
+        <Stack.Screen name="RealtimeDatabasePractise" component={RealtimeDatabasePractise} />
         <Stack.Screen name="ReadFromFirebase" component={ReadFromFirebase} />
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-        {/* <Stack.Screen name="RealtimeDatabasePractise" component={RealtimeDatabasePractise} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

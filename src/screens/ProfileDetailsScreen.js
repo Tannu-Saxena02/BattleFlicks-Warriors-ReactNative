@@ -161,10 +161,10 @@ const getImageUri=async()=>{
       uri != ''
     ) {
       console.log('noerror');
-      await AsyncStorage.setItem(
-        'userNameWithEmail',
-        firstName+" "+lastName,
-      );
+      // await AsyncStorage.setItem(
+      //   'userNameWithEmail',
+      //   firstName+" "+lastName,
+      // );
       navigation.navigate('FirebaseLogin');
     }
   };

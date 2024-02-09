@@ -3,7 +3,9 @@ apply plugin: "com.facebook.react"
 //added
 apply plugin: 'com.google.gms.google-services'
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
+// apply plugin:'com.facebook.FacebookSdk'
 import com.android.build.OutputFile
+
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -119,6 +121,12 @@ android {
             keyAlias 'androiddebugkey'
             keyPassword 'android'
         }
+         release {
+            storeFile file('release.keystore')
+            storePassword 'android'
+            keyAlias 'novo123'
+            keyPassword 'novo123'
+        }
     }
     buildTypes {
         debug {
@@ -154,6 +162,9 @@ dependencies {
    
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+     implementation 'com.facebook.android:facebook-login:latest.release'
+
+    implementation 'com.facebook.android:facebook-android-sdk:[8,9)'
 
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
     //added

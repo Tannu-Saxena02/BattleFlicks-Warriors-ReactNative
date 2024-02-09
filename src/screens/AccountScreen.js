@@ -1,18 +1,6 @@
-// import React from 'react';
-// import { View,Text } from 'react-native';
 
-// const AccountScreen=()=>{
-//     return(
-//     <View>
-//         <Text>Dummy Screen</Text>
-//     </View>
-//     )
-// }
-// export default AccountScreen;
-// Import React
 import React, {useState, useEffect} from 'react';
 import storage from '@react-native-firebase/storage';
-// Import required components
 import {
   SafeAreaView,
   StyleSheet,
@@ -28,9 +16,6 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// Import Image Picker
-// import ImagePicker from 'react-native-image-picker';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {TextInput} from 'react-native-paper';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -189,11 +174,15 @@ const AccountScreen = ({navigation}) => {
       country != '' &&
       uri != ''
     ) {
-      console.log('noerror');
+      console.log('noerror'+firstName+lastName);
       await AsyncStorage.setItem(
         'userNameWithEmail',
         firstName+" "+lastName,
       );
+      let data=await AsyncStorage.getItem(
+        'userNameWithEmail'
+      );
+      console.log("data is"+data);
       navigation.navigate('FirebaseLogin');
     }
   };

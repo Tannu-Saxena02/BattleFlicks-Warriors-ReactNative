@@ -53,10 +53,8 @@ const EmailVerify = ({navigation}) => {
           },
           {text: 'OK', onPress: () => navigation.navigate("AccountScreen") },
         ]);
-        await AsyncStorage.setItem("EmailFlow","true");
         console.log("email verify flag set");
-        const EmailFlow = await AsyncStorage.getItem('EmailFlow');
-        console.log('emailflow  is', EmailFlow);
+  
          }
          else{
            Alert.alert("please enter all data");
@@ -66,7 +64,7 @@ const EmailVerify = ({navigation}) => {
 
     catch(error)
     {
-      console.log("error is>>>",error);
+      console.log("error is>>>"+"heree",error);
       Alert.alert(error.message)
     }
     }

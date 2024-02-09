@@ -29,6 +29,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import BottomModal from '../screens/BottomModal'
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 const CustomSideMenu = props => {
   const navigation = useNavigation();
@@ -38,6 +39,7 @@ const CustomSideMenu = props => {
   const [openMenu, setOpenMenu] = useState(false);
   const [showBottomSheet, setBottomSheet] = useState(false);
   useEffect(() => {
+    getLoginInfo();
     getUploadImage();
   }, []);
   const [uri, setUri] = useState();
@@ -46,14 +48,38 @@ const CustomSideMenu = props => {
   const [emailId, setEmailId] = useState('');
   const [userNameEmail, setUserNameEmail] = useState('');
   const [filePath, setFilePath] = useState({});
-  const [emailFlow, setEmailFlow] = useState({});
+  const [isEmailLogin, setIsEmailLogin] = useState(false);
+  const [isGoogleLogin, setIsGoogleLogin] = useState(false);
+  const [googleInfo, setGoogleInfo] = useState(null);
+  const [isFacebookLogin, setIsFacebookLogin] = useState(false);
+  const [facebookInfo, setFacebookInfo] = useState();
+ 
 
-let emailFlowFlag;
-const deleteProfilePhoto=()=>{
-  setUri("");
+  let isGoogleSignin=true ; let isFacebookSignin;;  
+  let googleCreds; let facebookCreds;
+
+// const deleteProfilePhoto=()=>{
+//   setUri("");
+// }
+const getLoginInfo=async()=>{
+   isGoogleSignin = JSON.parse(await AsyncStorage.getItem('isGoogleSignin'));
+   isFacebookSignin =JSON.parse( await AsyncStorage.getItem('isFacebookSignin'));
+   googleCreds = JSON.parse(await AsyncStorage.getItem('googleCreds'));
+   facebookCreds = JSON.parse(await AsyncStorage.getItem('facebookCreds'));
+  setIsGoogleLogin(isGoogleSignin);
+  setGoogleInfo(googleCreds);
+  setIsFacebookLogin(isFacebookSignin);
+  setFacebookInfo(facebookCreds);
+   console.log("flag>>>"+isGoogleSignin+" >>>::::::::::::::::::::"+JSON.stringify(googleCreds)+"================ "+googleCreds+">>>>>>>>>"+isGoogleLogin);
+   if(isGoogleSignin)
+   console.log("hi gooogle");
+  // await AsyncStorage.setItem('ImageUri',googleCreds?.photo);
 }
+// console.log(" gooogle>>>>"+googleInfo.name+" google info>>>>>>>>>>"+googleInfo+":::::::::::::"+isGoogleLogin);
+
   const getUploadImage = async () => {
-    setUri('');
+   
+    // setUri('');
     let imageUri = await AsyncStorage.getItem('ImageUri');
     setUri(imageUri);
    let userEmailId = await AsyncStorage.getItem('email');
@@ -64,22 +90,23 @@ const deleteProfilePhoto=()=>{
     setMobileNumber(userMobileNumber);
    let userName = await AsyncStorage.getItem('userName');
     setName(userName);
-    emailFlowFlag = await AsyncStorage.getItem('EmailFlow');
-setEmailFlow(emailFlowFlag);
+    let isEmailSignin = JSON.parse(await AsyncStorage.getItem('isEmailSignin'));
+    setIsEmailLogin(isEmailSignin);
     console.log(
       'image uri is>>>',
-      imageUri,
+      imageUri+">>>>>"+uri,
       'emailid',
       userEmailId,
       'username withmail',
-      userNameWithEmail,
+      userNameEmail,
       'mobile number',
       userMobileNumber,
       'name',
       userName,
-      emailFlowFlag,
+      isGoogleLogin,
       "state is",
-      userNameEmail,"type is",typeof(emailFlowFlag)
+      isEmailLogin
+      // userNameEmail,"type is",typeof(emailFlowFlag)
     );
    
   };
@@ -155,7 +182,7 @@ setEmailFlow(emailFlowFlag);
           }
           setFilePath(response ? response : {});
           setUri(response?response.assets[0].uri:null);
-          await AsyncStorage.setItem('ImageUri', response?.assets[0].uri);
+          // await AsyncStorage.setItem('ImageUri', response?.assets[0].uri);
         } else {
           alert('User cancelled !!!!!');
         }
@@ -202,7 +229,7 @@ try{
         console.log('fileName -> ', response.fileName);
         setFilePath(response ? response : {});
         setUri(response?.assets[0].uri);
-        await AsyncStorage.setItem('ImageUri', response?.assets[0].uri);
+        // await AsyncStorage.setItem('ImageUri', response?.assets[0].uri);
 
       } else {
         alert('no response');
@@ -218,7 +245,7 @@ try{
     <SafeAreaView style={{flex: 1,
     // backgroundColor:"red"
     }}>
-  
+ 
       <View
         style={{
           backgroundColor: '#704DB6',
@@ -265,6 +292,7 @@ try{
               marginBottom: '3%',
             }}
             source={uri ? {uri: uri} : require('../assets/pngImages/photo.jpg')}
+            // source={{uri:s}}
           />
         </TouchableOpacity>
         <Text
@@ -274,13 +302,24 @@ try{
             fontWeight: '500',
             fontSize: 20,
           }}>
-          {emailFlow=="true"
-            ? userNameEmail
-              ? userNameEmail
-              : 'hello'
-            : name
-            ? name
-            : 'namedefault'}
+          {/* {emailFlow=="true"
+            ?
+             userNameEmail
+              // ?.userNameEmail
+            : */}
+            {
+           isEmailLogin?
+           emailId:
+            isGoogleLogin
+            ?
+            googleInfo?.name
+            :
+            isFacebookLogin
+            ?
+            facebookInfo?.name
+            :mobileNumber
+            // name?. name
+            }
         </Text>
         <Text
           style={{
@@ -289,15 +328,31 @@ try{
             fontWeight: '400',
             fontSize: 14,
           }}>
-          {emailFlow=="true"
+          {/* {emailFlow=="true"
             ? emailId
-              ? emailId
-              : 'email'
-            : mobileNumber
-            ? mobileNumber
-            : 'mobiledefault'}
+              ?. emailId
+              :isGoogleSignin
+            ?
+            googleCreds?.email
+            :
+            isFacebookSignin?
+            facebookCreds?.id 
+            : mobileNumber?.mobileNumber
+           } */}
+           {isEmailLogin?
+           userNameEmail:
+            isGoogleLogin
+            ?
+            googleInfo?.email
+            :
+            isFacebookLogin
+            ?
+            facebookInfo?.id
+            :name
+           }
         </Text>
       </View>
+    
       <DrawerContentScrollView {...props}>
         <DrawerItemList {...props} />
 
@@ -495,7 +550,7 @@ try{
               ]}> 
               <TouchableOpacity
                 onPress={() => {
-                  captureImage('photo');
+                  // captureImage('photo');
                   setBottomSheet(false);
                   console.log("hellooooo");
                 }}>
@@ -512,8 +567,11 @@ try{
                   </Text>
                 </View>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => {chooseFile('photo')
-            setBottomSheet(false)}}>
+              <TouchableOpacity 
+              onPress={() => {
+                // chooseFile('photo')
+            setBottomSheet(false)
+            }}>
                 <View
                   style={{
                     marginLeft: '4%',

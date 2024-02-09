@@ -41,6 +41,7 @@ const VerifyOtpScreen = ({navigation}) => {
   }
  
   const sendOtp=async()=>{
+    console.log("send otp called");
     try{
     let mobile=await AsyncStorage.getItem('mobileNumberWithCode');
      console.log("mobile no with code is"+mobile);
@@ -50,7 +51,7 @@ const VerifyOtpScreen = ({navigation}) => {
      const response=await auth().signInWithPhoneNumber(mobile);
      setConfirmData(response);
      }
-     await AsyncStorage.setItem("EmailFlow","false");
+    //  await AsyncStorage.setItem("EmailFlow","false");
   //  await AsyncStorage.setItem("responseSendOtp", JSON.stringify(confirmData));
   //  const sendOtpResponse =await AsyncStorage.getItem("responseSendOtp");
  
@@ -58,7 +59,14 @@ const VerifyOtpScreen = ({navigation}) => {
     }
     catch(error)
     {
-      Alert.alert(error.message);
+      if (error.code == 'auth/invalid-verification-code') {
+        console.log('Invalid code.');
+        Alert.alert(error.message);
+
+      } else {
+        // console.log('Account linking error');
+        Alert.alert(error.message);
+      }
      console.log("error is>>>>",error);
     }
    }
@@ -68,7 +76,7 @@ const VerifyOtpScreen = ({navigation}) => {
       // const sendOtpResponse =await AsyncStorage.getItem("responseSendOtp");
       // setOtpData(sendOtpResponse);
       // console.log("response in verify>>>",sendOtpResponse,"stringify>>>",JSON.parse(sendOtpResponse),"and>>",JSON.parse(otpData),"otpdata>>>>",otpData);
-      // console.log("value>>",value,"confirm>>>>>>",otpData);
+      console.log("value>>",value,"confirm>>>>>>",confirmData);
       const response=await confirmData.confirm(value);
       console.log("verify respnse>>",response);
       // Alert.alert("your email is verified successfully!!!")
@@ -79,16 +87,24 @@ const VerifyOtpScreen = ({navigation}) => {
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => navigation.navigate("DrawerNavigation") },
+        {text: 'OK', onPress: () => navigation.navigate("FirebaseLogin") },
       ]);
     }
     catch(error){
-      Alert.alert(error.message);
+      if (error.code == 'auth/invalid-verification-code') {
+        console.log('Invalid code.');
+        Alert.alert(error.message);
+
+      } else {
+        // console.log('Account linking error');
+        Alert.alert(error.message);
+      }
       console.log("error is>>",error);
     }
   }
   const countDownTimer = () => {
     console.log("countdown tiler");
+    // sendOtp();
     let timerCount = 10;
     const timerId = setInterval(() => {
       timerCount -= 1;
