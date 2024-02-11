@@ -26,10 +26,10 @@ const InitialGameScreen = () => {
         onPress={()=>{navigation.openDrawer();}}
           style={{
             flex: 0.2,
-            backgroundColor: 'red',
+            // backgroundColor: 'red',
             marginTop:"5%"
           }}>
-          <FontAwesome name={'bars'} size={30} 
+          <FontAwesome name={'bars'} size={30} color={"white"}
           style={{marginLeft: '7%'}} />
         </TouchableOpacity>
   {/* <CommonHeader navigation={navigation}/> */}

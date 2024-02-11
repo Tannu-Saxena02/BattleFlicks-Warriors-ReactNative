@@ -891,11 +891,11 @@ const FirebaseLogin = ({navigation}) => {
             marginHorizontal: '1%',
           }}
           onPress={() => {
-            // navigation.navigate('RegisterationScreen');
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'UserChoiceScreen'}],
-            });
+            navigation.navigate('UserChoiceScreen');
+            // navigation.reset({
+            //   index: 0,
+            //   routes: [{name: 'UserChoiceScreen'}],
+            // });
             // navigation.dispatch(StackActions.replace('RegisterationScreen'));
           }}>
           <Text

@@ -143,7 +143,7 @@ const getLoginInfo=async()=>{
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
         console.warn(err);
-        alert('Write permission err', err);
+        Alert.alert('Write permission err', err);
       }
       return false;
     } else return true;
@@ -168,30 +168,30 @@ const getLoginInfo=async()=>{
         if (response != null && response) {
         
           if (response.didCancel) {
-            alert('User cancelled camera picker');
+            Alert.alert('User cancelled camera picker');
             return;
           } else if (response.errorCode == 'camera_unavailable') {
-            alert('Camera not available on device');
+            Alert.alert('Camera not available on device');
             return;
           } else if (response.errorCode == 'permission') {
-            alert('Permission not satisfied');
+            Alert.alert('Permission not satisfied');
             return;
           } else if (response.errorCode == 'others') {
-            alert(response.errorMessage);
+            Alert.alert(response.errorMessage);
             return;
           }
           setFilePath(response ? response : {});
           setUri(response?response.assets[0].uri:null);
           // await AsyncStorage.setItem('ImageUri', response?.assets[0].uri);
         } else {
-          alert('User cancelled !!!!!');
+          Alert.alert('User cancelled !!!!!');
         }
       });
     }
   }
   catch(error)
  { console.log("errror is>>>",error);
- Alert.alert(error.message);
+ Alert.alert.Alert.alert(error.message);
 }
   };
 
@@ -208,16 +208,16 @@ try{
       console.log('Response = ', response);
       if (response != null && response) {
         if (response.didCancel) {
-          alert('User cancelled camera picker');
+          Alert.alert('User cancelled camera picker');
           return;
         } else if (response.errorCode == 'camera_unavailable') {
-          alert('Camera not available on device');
+          Alert.alert('Camera not available on device');
           return;
         } else if (response.errorCode == 'permission') {
-          alert('Permission not satisfied');
+          Alert.alert('Permission not satisfied');
           return;
         } else if (response.errorCode == 'others') {
-          alert(response.errorMessage);
+          Alert.alert(response.errorMessage);
           return;
         }
         console.log('base64 -> ', response.base64);
@@ -232,13 +232,13 @@ try{
         // await AsyncStorage.setItem('ImageUri', response?.assets[0].uri);
 
       } else {
-        alert('no response');
+        Alert.alert('no response');
       }
     });
   }
   catch(error)
   { console.log("errror is>>>",error);
-  Alert.alert(error.message);
+  Alert.alert.Alert.alert(error.message);
  }
   };
   return (

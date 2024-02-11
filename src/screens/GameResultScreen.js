@@ -5,6 +5,7 @@ import Lottie from 'lottie-react-native';
 import musicFile from '../assets/audioFiles/winSound.mp3';
 import loseSound from '../assets/audioFiles/lose.mp3';
 import Sound from 'react-native-sound';
+import {StackActions} from '@react-navigation/native';
 
 const GameResultScreen = ({route, navigation}) => {
   const {userScore, computerScore} = route.params;
@@ -243,11 +244,11 @@ const GameResultScreen = ({route, navigation}) => {
         }}>
         <TouchableOpacity
           onPress={() => {
-            navigation.reset({
-              index: 0,
-              routes: [{name: 'GameScreen'}],
-            });
-            // navigation.navigate('GameScreen');
+          //   navigation.reset({
+          //     index: 0,
+          //     routes: [{name: 'GameScreen'}],
+          //   });
+            navigation.navigate('GameScreen');
           }}
           disabled={seconds >= 0}
           // onPress={navigation.navigate('GameScreen')}
@@ -280,7 +281,7 @@ const GameResultScreen = ({route, navigation}) => {
 
         <TouchableOpacity
           disabled={seconds >= 0}
-          onPress={() => navigation.navigate('InitialGameScreen')}
+          onPress={() =>  navigation.dispatch(StackActions.replace('DrawerNavigation'))}
           style={{
             borderRadius: 10,
             padding: '3.3%',

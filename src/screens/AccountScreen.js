@@ -105,7 +105,7 @@ const AccountScreen = ({navigation}) => {
         return granted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
         console.warn(err);
-        alert('Write permission err', err);
+        Alert.alert('Write permission err', err);
       }
       return false;
     } else return true;
@@ -212,16 +212,16 @@ const AccountScreen = ({navigation}) => {
           //   );
 
           if (response.didCancel) {
-            alert('User cancelled camera picker');
+            Alert.alert('User cancelled camera picker');
             return;
           } else if (response.errorCode == 'camera_unavailable') {
-            alert('Camera not available on device');
+            Alert.alert('Camera not available on device');
             return;
           } else if (response.errorCode == 'permission') {
-            alert('Permission not satisfied');
+            Alert.alert('Permission not satisfied');
             return;
           } else if (response.errorCode == 'others') {
-            alert(response.errorMessage);
+            Alert.alert(response.errorMessage);
             return;
           }
           // console.log('base64 ->>> ', response.base64);
@@ -242,7 +242,7 @@ const AccountScreen = ({navigation}) => {
           //   setBottomSheet(false);
           UploadImageFirebase(response);
         } else {
-          alert('User cancelled !!!!!');
+          Alert.alert('User cancelled !!!!!');
         }
       });
     }
@@ -266,16 +266,16 @@ try{
       console.log('Response = ', response);
       if (response != null && response) {
         if (response.didCancel) {
-          alert('User cancelled camera picker');
+          Alert.alert('User cancelled camera picker');
           return;
         } else if (response.errorCode == 'camera_unavailable') {
-          alert('Camera not available on device');
+          Alert.alert('Camera not available on device');
           return;
         } else if (response.errorCode == 'permission') {
-          alert('Permission not satisfied');
+          Alert.alert('Permission not satisfied');
           return;
         } else if (response.errorCode == 'others') {
-          alert(response.errorMessage);
+          Alert.alert(response.errorMessage);
           return;
         }
         console.log('base64 -> ', response.base64);
@@ -294,7 +294,7 @@ try{
         
         UploadImageFirebase(response);
       } else {
-        alert('no response');
+        Alert.alert('no response');
       }
     });
   }
