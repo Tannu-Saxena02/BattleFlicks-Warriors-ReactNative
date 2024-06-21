@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Button, Text} from 'react-native';
 import notifee from '@notifee/react-native';
-import messaging from '@react-native-firebase/messaging';
+// import messaging from '@react-native-firebase/messaging';
 const Notifications = () => {
   // const onDisplayRemoteNotification = async () => {
   //   console.log('remotee');
@@ -47,9 +47,7 @@ const Notifications = () => {
   }
 
   return (
-    //     <View>
-    //     <Text>Dummy Screen</Text>
-    // </View>
+   
     <View style={{flex: 1, justifyContent: 'center'}}>
       <View style={{flex: 0.5, justifyContent: 'center'}}>
         <Button

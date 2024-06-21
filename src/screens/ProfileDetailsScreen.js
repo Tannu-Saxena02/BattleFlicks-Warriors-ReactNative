@@ -1,29 +1,6 @@
-// import React from 'react';
-// import { View,Text } from 'react-native';
 
-// const ProfileDetailsScreen=()=>{
-//     return(
-//     <View>
-//         <Text>Dummy Screen</Text>
-//     </View>
-//     )
-// }
-// export default ProfileDetailsScreen;
-// import React from 'react';
-// import { View,Text } from 'react-native';
-
-// const AccountScreen=()=>{
-//     return(
-//     <View>
-//         <Text>Dummy Screen</Text>
-//     </View>
-//     )
-// }
-// export default AccountScreen;
-// Import React
-import React, {useState, useEffect} from 'react';
-import storage from '@react-native-firebase/storage';
-// Import required components
+import React, { useState, useEffect } from 'react';
+// import storage from '@react-native-firebase/storage';
 import {
   SafeAreaView,
   StyleSheet,
@@ -39,15 +16,11 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// Import Image Picker
-// import ImagePicker from 'react-native-image-picker';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {TextInput} from 'react-native-paper';
-import {ScrollView} from 'react-native-gesture-handler';
-const ProfileDetailsScreen = ({navigation}) => {
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { TextInput } from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
+const ProfileDetailsScreen = ({ navigation }) => {
   const [filePath, setFilePath] = useState({});
-  // const [uri, setUri] = useState('file:///data/user/0/com.rnpractise/cache/rn_image_picker_lib_temp_ecf02629-5987-497f-b672-c5106486b0fe.jpg');
   const [uri, setUri] = useState('')
   const [fileName, setFileName] = useState('');
   const [showBottomSheet, setBottomSheet] = useState(false);
@@ -86,17 +59,17 @@ const ProfileDetailsScreen = ({navigation}) => {
   const [countryError, setCountryError] = useState('');
   const [noError, setNoError] = useState(false);
 
- useEffect(()=>{
+  useEffect(() => {
     getImageUri();
- },[])
- 
-const getImageUri=async()=>{
+  }, [])
+
+  const getImageUri = async () => {
     let imageUri = await AsyncStorage.getItem('ImageUri');
     setUri(imageUri);
-    console.log("image uri is>>",imageUri);
-}
- 
-  const handleValidation = async() => {
+    console.log("image uri is>>", imageUri);
+  }
+
+  const handleValidation = async () => {
     if (firstName == '') {
       setFirstNameError('firstname cannot be empty');
       setFirstNamShow(true);
@@ -160,19 +133,14 @@ const getImageUri=async()=>{
       country != '' &&
       uri != ''
     ) {
-      console.log('noerror');
-      // await AsyncStorage.setItem(
-      //   'userNameWithEmail',
-      //   firstName+" "+lastName,
-      // );
       navigation.navigate('FirebaseLogin');
     }
   };
- 
+
 
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Text style={styles.titleText}>Account Details</Text>
       <View style={styles.container}>
         <TouchableOpacity
@@ -181,7 +149,7 @@ const getImageUri=async()=>{
           }}
           style={{}}>
           <Image
-            source={uri ? {uri: uri} : require('../assets/pngImages/photo.jpg')}
+            source={uri ? { uri: uri } : require('../assets/pngImages/photo.jpg')}
             style={styles.imageStyle}
           />
         </TouchableOpacity>
@@ -190,19 +158,11 @@ const getImageUri=async()=>{
       <ScrollView
         style={{
           flex: 0.7,
-          // backgroundColor:"pink"
         }}>
-        <View
-          style={
-            {
-              // flex:0.9,
-              // backgroundColor:"pink"
-            }
-          }>
+        <View>
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'blue',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -216,12 +176,12 @@ const getImageUri=async()=>{
               }}
               style={{
                 color: '#4D4848',
-              width: '90%',
-               height: 48,
-              justifyContent: 'center',
-              alignSelf: 'center',
-                fontSize:13,
-                fontWeight:"300"
+                width: '90%',
+                height: 48,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -229,9 +189,6 @@ const getImageUri=async()=>{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -242,8 +199,6 @@ const getImageUri=async()=>{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {firstNameError}
               </Text>
@@ -252,7 +207,6 @@ const getImageUri=async()=>{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'yellow',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -267,11 +221,11 @@ const getImageUri=async()=>{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -279,9 +233,6 @@ const getImageUri=async()=>{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -292,8 +243,7 @@ const getImageUri=async()=>{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
+
                 }}>
                 {lastNameError}
               </Text>
@@ -302,7 +252,6 @@ const getImageUri=async()=>{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -316,12 +265,12 @@ const getImageUri=async()=>{
               }}
               style={{
                 color: '#4D4848',
-              width: '90%',
-               height: 48,
-              justifyContent: 'center',
-              alignSelf: 'center',
-                fontSize:13,
-                fontWeight:"300"
+                width: '90%',
+                height: 48,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -329,9 +278,6 @@ const getImageUri=async()=>{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -342,8 +288,7 @@ const getImageUri=async()=>{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
+
                 }}>
                 {phoneNumberError}
               </Text>
@@ -352,7 +297,6 @@ const getImageUri=async()=>{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -367,11 +311,11 @@ const getImageUri=async()=>{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -379,9 +323,6 @@ const getImageUri=async()=>{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -392,8 +333,6 @@ const getImageUri=async()=>{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {dobError}
               </Text>
@@ -402,7 +341,6 @@ const getImageUri=async()=>{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -417,11 +355,11 @@ const getImageUri=async()=>{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -429,9 +367,6 @@ const getImageUri=async()=>{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -442,8 +377,6 @@ const getImageUri=async()=>{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {genderError}
               </Text>
@@ -453,7 +386,6 @@ const getImageUri=async()=>{
             style={{
               flex: 0.9,
               marginBottom: '2%',
-              // backgroundColor: 'pink',
             }}>
             <TextInput
               label="Email Address"
@@ -467,11 +399,11 @@ const getImageUri=async()=>{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -479,9 +411,6 @@ const getImageUri=async()=>{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -492,8 +421,6 @@ const getImageUri=async()=>{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {emailError}
               </Text>
@@ -502,7 +429,6 @@ const getImageUri=async()=>{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -517,11 +443,11 @@ const getImageUri=async()=>{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -529,9 +455,6 @@ const getImageUri=async()=>{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -542,8 +465,7 @@ const getImageUri=async()=>{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
+
                 }}>
                 {addressError}
               </Text>
@@ -562,7 +484,6 @@ const getImageUri=async()=>{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -577,11 +498,11 @@ const getImageUri=async()=>{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -589,9 +510,6 @@ const getImageUri=async()=>{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -602,8 +520,7 @@ const getImageUri=async()=>{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
+
                 }}>
                 {streetError}
               </Text>
@@ -612,7 +529,6 @@ const getImageUri=async()=>{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -626,12 +542,12 @@ const getImageUri=async()=>{
               }}
               style={{
                 color: '#4D4848',
-              width: '90%',
-               height: 48,
-              justifyContent: 'center',
-              alignSelf: 'center',
-                fontSize:13,
-                fontWeight:"300"
+                width: '90%',
+                height: 48,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -639,9 +555,6 @@ const getImageUri=async()=>{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -652,8 +565,6 @@ const getImageUri=async()=>{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {zipCodeError}
               </Text>
@@ -662,7 +573,6 @@ const getImageUri=async()=>{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'blue',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -676,12 +586,12 @@ const getImageUri=async()=>{
               }}
               style={{
                 color: '#4D4848',
-              width: '90%',
-               height: 48,
-              justifyContent: 'center',
-              alignSelf: 'center',
-                fontSize:13,
-                fontWeight:"300"
+                width: '90%',
+                height: 48,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -689,9 +599,6 @@ const getImageUri=async()=>{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -702,8 +609,7 @@ const getImageUri=async()=>{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
+
                 }}>
                 {cityError}
               </Text>
@@ -712,7 +618,6 @@ const getImageUri=async()=>{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'yellow',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -726,12 +631,12 @@ const getImageUri=async()=>{
               }}
               style={{
                 color: '#4D4848',
-              width: '90%',
-               height: 48,
-              justifyContent: 'center',
-              alignSelf: 'center',
-                fontSize:13,
-                fontWeight:"300"
+                width: '90%',
+                height: 48,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -739,9 +644,6 @@ const getImageUri=async()=>{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -752,8 +654,7 @@ const getImageUri=async()=>{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
+
                 }}>
                 {countryError}
               </Text>
@@ -764,17 +665,14 @@ const getImageUri=async()=>{
       <View
         style={{
           flex: 0.15,
-          // backgroundColor:"pink"
         }}>
         <TouchableOpacity
           onPress={() => {
-            // navigation.navigate('FirebaseLogin');
             handleValidation();
           }}
           style={{
             width: '90%',
             height: '85%',
-            // backgroundColor: '#0379FF',
             backgroundColor: 'green',
             marginHorizontal: '0%',
             borderRadius: 10,
@@ -786,7 +684,6 @@ const getImageUri=async()=>{
           <View
             style={{
               flex: 0.7,
-              //  backgroundColor:"red",
               alignSelf: 'center',
               justifyContent: 'center',
             }}>
@@ -804,7 +701,7 @@ const getImageUri=async()=>{
           </View>
         </TouchableOpacity>
       </View>
-    
+
       {/* <Modal
         animationType={'slide'}
         visible={showBottomSheet}
@@ -873,7 +770,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 0.35,
     padding: 10,
-    // backgroundColor: 'red',
     alignItems: 'center',
   },
   titleText: {
@@ -908,7 +804,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000AA',
     justifyContent: 'flex-end',
-    // backgroundColor:"yellow"
   },
 
   mainContainerModal2: {
@@ -918,7 +813,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     paddingHorizontal: '1%',
-    // maxHeight: theme.palette.height,
     borderBottomColor: '#F8F8F9',
     borderBottomWidth: 1.5,
   },

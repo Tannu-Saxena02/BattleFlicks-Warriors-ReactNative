@@ -9,30 +9,22 @@ import { useNavigation } from '@react-navigation/native';
 const InitialGameScreen = () => {
   const navigation = useNavigation();
   useEffect(()=>{
-    // const backAction = () => {
-    // const backHandler = BackHandler.addEventListener(
-    //   'hardwareBackPress',
-    //   backAction,
-    // );
-    // return () => backHandler.remove();
-    // }
+    
 
   },[])
   return (
-    <View style={{flex: 1, backgroundColor: 'black',
+    <View style={{flex: 1, backgroundColor: '#242841ff',
    
 }}>
     <TouchableOpacity
         onPress={()=>{navigation.openDrawer();}}
           style={{
-            flex: 0.2,
-            // backgroundColor: 'red',
+            flex: 0.05,
             marginTop:"5%"
           }}>
           <FontAwesome name={'bars'} size={30} color={"white"}
           style={{marginLeft: '7%'}} />
         </TouchableOpacity>
-  {/* <CommonHeader navigation={navigation}/> */}
   <View style={{  justifyContent: 'center',
           alignSelf: 'center',
           flex:1,
@@ -41,14 +33,17 @@ const InitialGameScreen = () => {
         style={{
           width: 300,
           height: 200,
+          marginBottom:'14%'
         }}
         source={require('../assets/pngImages/rps.png')}
       />
       </View>
-      {/* <Text style={styles.readyText}>Let's play</Text> */}
       <TouchableOpacity
         onPress={()=>{
-         navigation.navigate('GameScreen');
+          navigation.reset({
+            index: 0,
+            routes: [{name: 'GameScreen'}],
+          });
           }}
         style={{
           flexDirection:"row",

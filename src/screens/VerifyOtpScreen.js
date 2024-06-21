@@ -1,5 +1,5 @@
-import {View, Text, SafeAreaView, StyleSheet,Alert,ImageBackground} from 'react-native';
-import React, {useState} from 'react';
+import { View, Text, SafeAreaView, StyleSheet, Alert, ImageBackground } from 'react-native';
+import React, { useState } from 'react';
 
 import {
   CodeField,
@@ -7,15 +7,15 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 
-const VerifyOtpScreen = ({navigation}) => {
+const VerifyOtpScreen = ({ navigation }) => {
   const CELL_COUNT = 6;
 
   const [value, setValue] = useState('');
-  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
+  const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
@@ -30,76 +30,59 @@ const VerifyOtpScreen = ({navigation}) => {
   React.useEffect(() => {
     sendOtp();
     countDownTimer();
-    
+
     // getSendOtpResponse();
   }, []);
-  const getSendOtpResponse=async()=>{
+  const getSendOtpResponse = async () => {
     console.log("useeffect function");
-  //  const sendOtpResponse =await AsyncStorage.getItem("responseSendOtp");
-  //  setOtpData(JSON.parse(sendOtpResponse));
-  //  console.log("response in verify>>>",sendOtpResponse,"stringify>>>",JSON.parse(sendOtpResponse),"and>>",JSON.parse(otpData),"otpdata>>>>",otpData);
   }
- 
-  const sendOtp=async()=>{
+
+  const sendOtp = async () => {
     console.log("send otp called");
-    try{
-    let mobile=await AsyncStorage.getItem('mobileNumberWithCode');
-     console.log("mobile no with code is"+mobile);
-     setMobileNumber(mobile)
-     if(mobile)
-     {
-     const response=await auth().signInWithPhoneNumber(mobile);
-     setConfirmData(response);
-     }
-    //  await AsyncStorage.setItem("EmailFlow","false");
-  //  await AsyncStorage.setItem("responseSendOtp", JSON.stringify(confirmData));
-  //  const sendOtpResponse =await AsyncStorage.getItem("responseSendOtp");
- 
-    //  console.log("send otp response>>>",response);
+    try {
+      let mobile = await AsyncStorage.getItem('mobileNumberWithCode');
+      console.log("mobile no with code is" + mobile);
+      setMobileNumber(mobile)
+      if (mobile) {
+        const response = await auth().signInWithPhoneNumber(mobile);
+        setConfirmData(response);
+      }
     }
-    catch(error)
-    {
+    catch (error) {
       if (error.code == 'auth/invalid-verification-code') {
         console.log('Invalid code.');
         Alert.alert(error.message);
 
       } else {
-        // console.log('Account linking error');
         Alert.alert(error.message);
       }
-     console.log("error is>>>>",error);
+      console.log("error is>>>>", error);
     }
-   }
-  const handleVerifyOtp=async()=>{
-    try{
-      console.log("handle useeffect function");
-      // const sendOtpResponse =await AsyncStorage.getItem("responseSendOtp");
-      // setOtpData(sendOtpResponse);
-      // console.log("response in verify>>>",sendOtpResponse,"stringify>>>",JSON.parse(sendOtpResponse),"and>>",JSON.parse(otpData),"otpdata>>>>",otpData);
-      console.log("value>>",value,"confirm>>>>>>",confirmData);
-      const response=await confirmData.confirm(value);
-      console.log("verify respnse>>",response);
-      // Alert.alert("your email is verified successfully!!!")
-      // navigation.navigate("AccountScreen")
-      Alert.alert('Alert', 'your email is verified successfully!!!', [
+  }
+  const handleVerifyOtp = async () => {
+    try {
+      console.log("value>>", value, "confirm>>>>>>", confirmData);
+      const response = await confirmData.confirm(value);
+      console.log("verify respnse>>", response);
+
+      Alert.alert('Alert', 'your account is verified successfully', [
         {
           text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
           style: 'cancel',
         },
-        {text: 'OK', onPress: () => navigation.navigate("FirebaseLogin") },
+        { text: 'OK', onPress: () => navigation.navigate("FirebaseLogin") },
       ]);
     }
-    catch(error){
+    catch (error) {
       if (error.code == 'auth/invalid-verification-code') {
         console.log('Invalid code.');
         Alert.alert(error.message);
 
       } else {
-        // console.log('Account linking error');
         Alert.alert(error.message);
       }
-      console.log("error is>>",error);
+      console.log("error is>>", error);
     }
   }
   const countDownTimer = () => {
@@ -113,7 +96,7 @@ const VerifyOtpScreen = ({navigation}) => {
         setTimerShow(false);
       } else {
         setTimerShow(true)
-        console.log("count is>>>",timerCount);
+        console.log("count is>>>", timerCount);
         setTime(timerCount);
       }
     }, 1000);
@@ -123,10 +106,9 @@ const VerifyOtpScreen = ({navigation}) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-       <View
+      <View
         style={{
           flex: 0.5,
-          // backgroundColor: 'purple',
         }}>
         <ImageBackground
           source={require('../assets/pngImages/verify3.png')}
@@ -136,7 +118,6 @@ const VerifyOtpScreen = ({navigation}) => {
       <View
         style={{
           flex: 0.3,
-          // backgroundColor:"pink",
           justifyContent: 'center',
         }}>
         <Text style={styles.title}>Verify your</Text>
@@ -145,38 +126,37 @@ const VerifyOtpScreen = ({navigation}) => {
       <View
         style={{
           flex: 0.1,
-          // backgroundColor:"pink",
           justifyContent: 'center',
-          alignSelf:"center"
+          alignSelf: "center"
         }}>
-        <Text 
-        style={{
-          fontSize:16,
-          fontWeight:"600"
-        }}
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "600"
+          }}
         >You will get a OTP via SMS on Mobile number</Text>
-        <Text style={{fontSize:16,
-         fontWeight:"600",
-         justifyContent:"center",
-         alignSelf:"center"}}> {mobileNumber? mobileNumber:""}</Text>
+        <Text style={{
+          fontSize: 16,
+          fontWeight: "600",
+          justifyContent: "center",
+          alignSelf: "center"
+        }}> {mobileNumber ? mobileNumber : ""}</Text>
       </View>
       <View
         style={{
           marginHorizontal: '4%',
           flex: 0.15,
-          // backgroundColor:"red"
         }}>
         <CodeField
           ref={ref}
           {...props}
-          // Use `caretHidden={false}` when users can't paste a text value, because context menu doesn't appear
           value={value}
           onChangeText={setValue}
           cellCount={CELL_COUNT}
           rootStyle={styles.codeFieldRoot}
           keyboardType="number-pad"
           textContentType="oneTimeCode"
-          renderCell={({index, symbol, isFocused}) => (
+          renderCell={({ index, symbol, isFocused }) => (
             <Text
               key={index}
               style={[styles.cell, isFocused && styles.focusCell]}
@@ -192,7 +172,6 @@ const VerifyOtpScreen = ({navigation}) => {
           flex: 0.1,
           justifyContent: 'center',
           alignSelf: 'center',
-          //   backgroundColor:"yellow",
           marginTop: '4%',
           alignSelf: 'center',
         }}>
@@ -215,7 +194,6 @@ const VerifyOtpScreen = ({navigation}) => {
         ) : (
           <Text
             style={{
-              // textDecorationLine: 'underline',
               color: '#000',
               fontWeight: '500',
               marginLeft: '2%',
@@ -227,15 +205,13 @@ const VerifyOtpScreen = ({navigation}) => {
       <View
         style={{
           flex: 0.12,
-          //   backgroundColor:"pink"
         }}>
         <TouchableOpacity
-        onPress={()=>{handleVerifyOtp()}}
+          onPress={() => { handleVerifyOtp() }}
           style={{
             width: '90%',
             height: '85%',
             backgroundColor: '#0379FF',
-            // backgroundColor: '#4267b2',
             marginHorizontal: '0%',
             borderRadius: 10,
             alignSelf: 'center',
@@ -246,7 +222,6 @@ const VerifyOtpScreen = ({navigation}) => {
           <View
             style={{
               flex: 0.7,
-              //  backgroundColor:"red",
               alignSelf: 'center',
               justifyContent: 'center',
             }}>
@@ -270,12 +245,12 @@ const VerifyOtpScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:"#ffff"
-    //  padding: 40
+    backgroundColor: "#ffff"
   },
-  title: {textAlign: 'left', fontWeight: '500', marginLeft: '8%', fontSize: 35,
-},
-  codeFieldRoot: {marginTop: 20},
+  title: {
+    textAlign: 'left', fontWeight: '500', marginLeft: '8%', fontSize: 35,
+  },
+  codeFieldRoot: { marginTop: 20 },
   cell: {
     width: 50,
     height: 50,
@@ -285,7 +260,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#00000030',
     textAlign: 'center',
-    // color:"#00"
   },
   focusCell: {
     borderColor: '#0379FF',

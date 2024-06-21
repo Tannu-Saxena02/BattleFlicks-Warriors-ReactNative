@@ -35,7 +35,6 @@ const styles=StyleSheet.create({
     flex:1,
     justifyContent:"center",
     alignItems:"center",
-    // backgroundColor
   },
   playerName:{
     color:"white",
@@ -49,12 +48,6 @@ const styles=StyleSheet.create({
   scissorLeftIcon:{
     transform:[{rotateZ:'180deg'},{rotateX:'180deg'}]
   },
-  // rightIcon:{
-  //   // transform:[{rotateX:'180deg'},{rotateY:'180deg'},{rotateZ:'180deg'}]
-
-  //   transform:[{rotateZ:'-90deg'}]
-  //   // transform:[{rotateZ:'360deg'},{rotateX:'360deg'}]
-  // },
   rightIcon:{
      transform:[{rotateX:'180deg'},{rotateY:'180deg'},{rotateZ:'180deg'}]
   }

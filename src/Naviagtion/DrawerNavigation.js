@@ -49,47 +49,17 @@ const DrawerNavigation = () => {
           ),
         }}
       />
-      <Drawer.Screen
-        name="RegisterationScreen"
-        component={RegisterationScreen}
+       <Drawer.Screen
+        name="GameScreen"
+        component={GameScreen}
         options={{
-          title: 'Login',
-          drawerActiveTintColor: '#6200EE',
-          drawerIcon: ({focused, size}) => (
-            <AntDesign
-              name="login"
-              size={focused ? 28 : 25}
-              color={focused ? '#6200EE' : '#000'}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="FirebaseLogin"
-        component={FirebaseLogin}
-        options={{
-          title: 'Logout',
+          title: 'Play Game',
           drawerActiveTintColor: '#6200EE',
 
           drawerIcon: ({focused, size}) => (
-            <AntDesign
-              name="logout"
+            <MaterialCommunityIcons
+              name="gamepad"
               size={focused ? 28 : 23}
-              color={focused ? '#6200EE' : '#000'}
-            />
-          ),
-        }}
-      />
-      <Drawer.Screen
-        name="VerifyOtpScreen"
-        component={SendOtpScreen}
-        options={{
-          title: 'Share App',
-          drawerActiveTintColor: '#6200EE',
-          drawerIcon: ({focused, size}) => (
-            <Entypo
-              name="share"
-              size={focused ? 28 : 25}
               color={focused ? '#6200EE' : '#000'}
             />
           ),
@@ -114,7 +84,7 @@ const DrawerNavigation = () => {
         name="EmailVerify"
         component={EmailVerify}
         options={{
-          title: 'Change EmailAddress',
+          title: 'Change Emailaddress',
           drawerActiveTintColor: '#6200EE',
           drawerIcon: ({focused, size}) => (
             <Entypo
@@ -125,6 +95,24 @@ const DrawerNavigation = () => {
           ),
         }}
       />
+      <Drawer.Screen
+        name="FirebaseLogin"
+        component={FirebaseLogin}
+        options={{
+          title: 'Logout',
+          drawerActiveTintColor: '#6200EE',
+
+          drawerIcon: ({focused, size}) => (
+            <AntDesign
+              name="logout"
+              size={focused ? 28 : 23}
+              color={focused ? '#6200EE' : '#000'}
+            />
+          ),
+        }}
+      />
+      
+      
     </Drawer.Navigator>
   );
 };

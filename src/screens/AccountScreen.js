@@ -1,6 +1,7 @@
 
-import React, {useState, useEffect} from 'react';
-import storage from '@react-native-firebase/storage';
+import React, { useState, useEffect } from 'react';
+// import storage from '@react-native-firebase/storage';
+//storage and messsing depencies are mremoved due to ios issue,reanimated.
 import {
   SafeAreaView,
   StyleSheet,
@@ -16,12 +17,11 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {TextInput} from 'react-native-paper';
-import {ScrollView} from 'react-native-gesture-handler';
-const AccountScreen = ({navigation}) => {
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { TextInput } from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
+const AccountScreen = ({ navigation }) => {
   const [filePath, setFilePath] = useState({});
-  // const [uri, setUri] = useState('file:///data/user/0/com.rnpractise/cache/rn_image_picker_lib_temp_ecf02629-5987-497f-b672-c5106486b0fe.jpg');
   const [uri, setUri] = useState('')
   const [fileName, setFileName] = useState('');
   const [showBottomSheet, setBottomSheet] = useState(false);
@@ -60,16 +60,16 @@ const AccountScreen = ({navigation}) => {
   const [countryError, setCountryError] = useState('');
   const [noError, setNoError] = useState(false);
 
- async function UploadImageFirebase(uriResponse){
-    try{
+  async function UploadImageFirebase(uriResponse) {
+    try {
       //firebase rule needs to be updated
-      console.log(typeof(filePath),"respinse",uriResponse);
-      console.log("file name and uri is>>>",fileName,"drfdg",uri,"uriii",uriResponse.assets);
-      const response=await storage().ref(`/profile/${uriResponse.assets[0].fileName}`).putFile(uriResponse.assets[0].uri);
-      console.log("response to store in firebase>>>",response);
+      console.log(typeof (filePath), "respinse", uriResponse);
+      console.log("file name and uri is>>>", fileName, "drfdg", uri, "uriii", uriResponse.assets);
+      // const response=await storage().ref(`/profile/${uriResponse.assets[0].fileName}`).putFile(uriResponse.assets[0].uri);
+      // console.log("response to store in firebase>>>",response);
     }
-    catch(error){
-      console.log("error in function isss>>>",error);
+    catch (error) {
+      console.log("error in function isss>>>", error);
     }
   }
   const requestCameraPermission = async () => {
@@ -110,7 +110,7 @@ const AccountScreen = ({navigation}) => {
       return false;
     } else return true;
   };
-  const handleValidation = async() => {
+  const handleValidation = async () => {
     if (firstName == '') {
       setFirstNameError('firstname cannot be empty');
       setFirstNamShow(true);
@@ -174,43 +174,84 @@ const AccountScreen = ({navigation}) => {
       country != '' &&
       uri != ''
     ) {
-      console.log('noerror'+firstName+lastName);
+      console.log('noerror' + firstName + lastName);
       await AsyncStorage.setItem(
         'userNameWithEmail',
-        firstName+" "+lastName,
+        firstName + " " + lastName,
       );
-      let data=await AsyncStorage.getItem(
+      let data = await AsyncStorage.getItem(
         'userNameWithEmail'
       );
-      console.log("data is"+data);
+      console.log("data is" + data);
       navigation.navigate('FirebaseLogin');
     }
   };
   const captureImage = async type => {
     setBottomSheet(false);
-    try{
-    let options = {
-      mediaType: type,
-      maxWidth: 300,
-      maxHeight: 550,
-      quality: 1,
-      videoQuality: 'low',
-      durationLimit: 30, //Video max duration in seconds
-      saveToPhotos: true,
-    };
-    let isCameraPermitted = await requestCameraPermission();
-    let isStoragePermitted = await requestExternalWritePermission();
-    if (isCameraPermitted && isStoragePermitted) {
-      launchCamera(options, async response => {
-        console.log('response>>>', response);
-        if (response != null && response) {
-          //   console.log(
-          //     'Response = ',
-          //     response,
-          //     'and>>>>',
-          //     response.assets[0].uri,
-          //   );
+    try {
+      let options = {
+        mediaType: type,
+        maxWidth: 300,
+        maxHeight: 550,
+        quality: 1,
+        videoQuality: 'low',
+        durationLimit: 30, //Video max duration in seconds
+        saveToPhotos: true,
+      };
+      let isCameraPermitted = await requestCameraPermission();
+      let isStoragePermitted = await requestExternalWritePermission();
+      console.log("log", isCameraPermitted + " " + isStoragePermitted);
+      if (isCameraPermitted) {
+        launchCamera(options, async response => {
+          console.log('response>>>', response);
+          if (response != null && response) {
 
+            if (response.didCancel) {
+              Alert.alert('User cancelled camera picker');
+              return;
+            } else if (response.errorCode == 'camera_unavailable') {
+              Alert.alert('Camera not available on device');
+              return;
+            } else if (response.errorCode == 'permission') {
+              Alert.alert('Permission not satisfied');
+              return;
+            } else if (response.errorCode == 'others') {
+              Alert.alert(response.errorMessage);
+              return;
+            }
+            setFilePath(response ? response : {});
+            setUri(response ? response.assets[0].uri : "tannjhuweyge");
+            setFileName(response ? response.assets[0].fileName : "tannu");
+            await AsyncStorage.setItem('ImageUri', response?.assets[0].uri);
+            // let imageUri = await AsyncStorage.getItem('ImageUri');
+            console.log('imageuri on upload issss>>>>', uri, "filename", fileName);
+            console.log('response imageuri on upload issss>>>>', response.assets[0].uri, "filename", response.assets[0].fileName);
+
+            UploadImageFirebase(response);
+          } else {
+            Alert.alert('User cancelled !!!!!');
+          }
+        });
+      }
+    }
+    catch (error) {
+      console.log("errror is>>>", error);
+      Alert.alert(error.message);
+    }
+  };
+
+  const chooseFile = type => {
+    setBottomSheet(false);
+    try {
+      let options = {
+        mediaType: type,
+        maxWidth: 300,
+        maxHeight: 550,
+        quality: 1,
+      };
+      launchImageLibrary(options, async response => {
+        console.log('Response = ', response);
+        if (response != null && response) {
           if (response.didCancel) {
             Alert.alert('User cancelled camera picker');
             return;
@@ -224,88 +265,33 @@ const AccountScreen = ({navigation}) => {
             Alert.alert(response.errorMessage);
             return;
           }
-          // console.log('base64 ->>> ', response.base64);
-          // console.log('uri -> ', response.assets[0]);
-          // console.log('width -> ', response.width);
-          // console.log('height -> ', response.height);
-          // console.log('fileSize -> ', response.fileSize);
-          // console.log('type -> ', response.type);
-          // console.log('fileName -> ', response.fileName);
+          console.log('base64 -> ', response.base64);
+          console.log('uri -> ', response.uri);
+          console.log('width -> ', response.width);
+          console.log('height -> ', response.height);
+          console.log('fileSize -> ', response.fileSize);
+          console.log('type -> ', response.type);
+          console.log('fileName -> ', response.fileName);
           setFilePath(response ? response : {});
-          setUri(response?response.assets[0].uri:"tannjhuweyge");
-          setFileName(response?response.assets[0].fileName:"tannu");
+          setUri(response?.assets[0].uri);
+          setFileName(response?.assets[0].fileName);
           await AsyncStorage.setItem('ImageUri', response?.assets[0].uri);
-          // let imageUri = await AsyncStorage.getItem('ImageUri');
-          console.log('imageuri on upload issss>>>>', uri,"filename",fileName);
-          console.log('response imageuri on upload issss>>>>',response.assets[0].uri ,"filename",response.assets[0].fileName);
+          let imageUri = await AsyncStorage.getItem('ImageUri');
 
-          //   setBottomSheet(false);
           UploadImageFirebase(response);
         } else {
-          Alert.alert('User cancelled !!!!!');
+          Alert.alert('no response');
         }
       });
     }
-  }
-  catch(error)
- { console.log("errror is>>>",error);
- Alert.alert(error.message);
-}
-  };
-
-  const chooseFile = type => {
-    setBottomSheet(false);
-try{
-    let options = {
-      mediaType: type,
-      maxWidth: 300,
-      maxHeight: 550,
-      quality: 1,
-    };
-    launchImageLibrary(options, async response => {
-      console.log('Response = ', response);
-      if (response != null && response) {
-        if (response.didCancel) {
-          Alert.alert('User cancelled camera picker');
-          return;
-        } else if (response.errorCode == 'camera_unavailable') {
-          Alert.alert('Camera not available on device');
-          return;
-        } else if (response.errorCode == 'permission') {
-          Alert.alert('Permission not satisfied');
-          return;
-        } else if (response.errorCode == 'others') {
-          Alert.alert(response.errorMessage);
-          return;
-        }
-        console.log('base64 -> ', response.base64);
-        console.log('uri -> ', response.uri);
-        console.log('width -> ', response.width);
-        console.log('height -> ', response.height);
-        console.log('fileSize -> ', response.fileSize);
-        console.log('type -> ', response.type);
-        console.log('fileName -> ', response.fileName);
-        setFilePath(response ? response : {});
-        setUri(response?.assets[0].uri);
-        setFileName(response?.assets[0].fileName);
-        await AsyncStorage.setItem('ImageUri', response?.assets[0].uri);
-               let imageUri = await AsyncStorage.getItem('ImageUri');
-        // console.log('imageuri on upload issss>>>>', JSON.stringify(imageUri),"filepath>>>>>>>>>>>>>",filePath.assets[0].fileName);
-        
-        UploadImageFirebase(response);
-      } else {
-        Alert.alert('no response');
-      }
-    });
-  }
-  catch(error)
-  { console.log("errror is>>>",error);
-  Alert.alert(error.message);
- }
+    catch (error) {
+      console.log("errror is>>>", error);
+      Alert.alert(error.message);
+    }
   };
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{ flex: 1 }}>
       <Text style={styles.titleText}>Account Details</Text>
       <View style={styles.container}>
         <TouchableOpacity
@@ -314,7 +300,7 @@ try{
           }}
           style={{}}>
           <Image
-            source={uri ? {uri: uri} : require('../assets/pngImages/photo.jpg')}
+            source={uri ? { uri: uri } : require('../assets/pngImages/photo.jpg')}
             style={styles.imageStyle}
           />
         </TouchableOpacity>
@@ -323,19 +309,11 @@ try{
       <ScrollView
         style={{
           flex: 0.7,
-          // backgroundColor:"pink"
         }}>
-        <View
-          style={
-            {
-              // flex:0.9,
-              // backgroundColor:"pink"
-            }
-          }>
+        <View>
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'blue',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -349,12 +327,12 @@ try{
               }}
               style={{
                 color: '#4D4848',
-              width: '90%',
-               height: 48,
-              justifyContent: 'center',
-              alignSelf: 'center',
-                fontSize:13,
-                fontWeight:"300"
+                width: '90%',
+                height: 48,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -362,9 +340,6 @@ try{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -375,8 +350,6 @@ try{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {firstNameError}
               </Text>
@@ -385,7 +358,6 @@ try{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'yellow',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -400,11 +372,11 @@ try{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -412,9 +384,6 @@ try{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -425,8 +394,6 @@ try{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {lastNameError}
               </Text>
@@ -435,7 +402,6 @@ try{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -449,12 +415,12 @@ try{
               }}
               style={{
                 color: '#4D4848',
-              width: '90%',
-               height: 48,
-              justifyContent: 'center',
-              alignSelf: 'center',
-                fontSize:13,
-                fontWeight:"300"
+                width: '90%',
+                height: 48,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -462,9 +428,6 @@ try{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -475,8 +438,6 @@ try{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {phoneNumberError}
               </Text>
@@ -485,7 +446,6 @@ try{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -500,11 +460,11 @@ try{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -512,9 +472,6 @@ try{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -525,8 +482,6 @@ try{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {dobError}
               </Text>
@@ -535,7 +490,6 @@ try{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -550,11 +504,11 @@ try{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -562,9 +516,6 @@ try{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -575,8 +526,7 @@ try{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
+
                 }}>
                 {genderError}
               </Text>
@@ -586,7 +536,6 @@ try{
             style={{
               flex: 0.9,
               marginBottom: '2%',
-              // backgroundColor: 'pink',
             }}>
             <TextInput
               label="Email Address"
@@ -600,11 +549,11 @@ try{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -612,9 +561,6 @@ try{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -625,8 +571,6 @@ try{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {emailError}
               </Text>
@@ -635,7 +579,6 @@ try{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -650,11 +593,11 @@ try{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -662,9 +605,6 @@ try{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -675,8 +615,6 @@ try{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {addressError}
               </Text>
@@ -695,7 +633,6 @@ try{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -710,11 +647,11 @@ try{
               style={{
                 color: '#4D4848',
                 width: '90%',
-                 height: 48,
+                height: 48,
                 justifyContent: 'center',
                 alignSelf: 'center',
-                  fontSize:13,
-                  fontWeight:"300"
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -722,9 +659,6 @@ try{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -735,8 +669,6 @@ try{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {streetError}
               </Text>
@@ -745,7 +677,6 @@ try{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'pink',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -759,12 +690,12 @@ try{
               }}
               style={{
                 color: '#4D4848',
-              width: '90%',
-               height: 48,
-              justifyContent: 'center',
-              alignSelf: 'center',
-                fontSize:13,
-                fontWeight:"300"
+                width: '90%',
+                height: 48,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -772,9 +703,6 @@ try{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -785,8 +713,6 @@ try{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {zipCodeError}
               </Text>
@@ -795,7 +721,6 @@ try{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'blue',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -809,12 +734,12 @@ try{
               }}
               style={{
                 color: '#4D4848',
-              width: '90%',
-               height: 48,
-              justifyContent: 'center',
-              alignSelf: 'center',
-                fontSize:13,
-                fontWeight:"300"
+                width: '90%',
+                height: 48,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -822,9 +747,6 @@ try{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -835,8 +757,6 @@ try{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {cityError}
               </Text>
@@ -845,7 +765,6 @@ try{
           <View
             style={{
               flex: 0.9,
-              // backgroundColor: 'yellow',
               marginBottom: '2%',
             }}>
             <TextInput
@@ -859,12 +778,12 @@ try{
               }}
               style={{
                 color: '#4D4848',
-              width: '90%',
-               height: 48,
-              justifyContent: 'center',
-              alignSelf: 'center',
-                fontSize:13,
-                fontWeight:"300"
+                width: '90%',
+                height: 48,
+                justifyContent: 'center',
+                alignSelf: 'center',
+                fontSize: 13,
+                fontWeight: "300"
               }}
               outlineColor={'#AFAFAF'}
               theme={{
@@ -872,9 +791,6 @@ try{
                   primary: '#B5B5B5',
                   text: '#4D4848',
                   background: '#F4F4F4',
-
-                  //   ? '#F4F4F4'
-                  //   '#FFFFFF',
                   placeholder: '#989898',
                 },
               }}
@@ -885,8 +801,6 @@ try{
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {countryError}
               </Text>
@@ -897,18 +811,15 @@ try{
       <View
         style={{
           flex: 0.15,
-          // backgroundColor:"pink"
         }}>
         <TouchableOpacity
           onPress={() => {
-            // navigation.navigate('FirebaseLogin');
             handleValidation();
           }}
           style={{
             width: '90%',
             height: '85%',
-            // backgroundColor: '#0379FF',
-            backgroundColor: 'green',
+            backgroundColor: '#1877f2',
             marginHorizontal: '0%',
             borderRadius: 10,
             alignSelf: 'center',
@@ -919,7 +830,6 @@ try{
           <View
             style={{
               flex: 0.7,
-              //  backgroundColor:"red",
               alignSelf: 'center',
               justifyContent: 'center',
             }}>
@@ -984,7 +894,7 @@ try{
         animationType={'slide'}
         visible={showBottomSheet}
         transparent={true}
-        // onRequestClose={toggleUpBottomSheet}
+      // onRequestClose={toggleUpBottomSheet}
       >
         <TouchableOpacity
           activeOpacity={1}
@@ -995,13 +905,10 @@ try{
           <View
             style={[
               styles.modalContainer,
-              // {backgroundColor:"pink"},
             ]}>
             <View
               style={[
                 styles.mainContainerModal2,
-                // {backgroundColor: colors.PopUpColor},
-                // {backgroundColor: "red"},
               ]}>
               <TouchableOpacity
                 onPress={() => {
@@ -1015,7 +922,7 @@ try{
                   }}>
                   <AntDesign name={'camera'} size={23} />
                   <Text
-                    style={{color: 'black', fontSize: 16, marginLeft: '6%'}}>
+                    style={{ color: 'black', fontSize: 16, marginLeft: '6%' }}>
                     Capture image from Camera
                   </Text>
                 </View>
@@ -1029,7 +936,7 @@ try{
                   }}>
                   <MaterialCommunityIcons name={'view-gallery'} size={23} />
                   <Text
-                    style={{color: 'black', fontSize: 16, marginLeft: '6%'}}>
+                    style={{ color: 'black', fontSize: 16, marginLeft: '6%' }}>
                     Choose image from gallery
                   </Text>
                 </View>
@@ -1048,7 +955,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 0.35,
     padding: 10,
-    // backgroundColor: 'red',
     alignItems: 'center',
   },
   titleText: {
@@ -1083,7 +989,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000AA',
     justifyContent: 'flex-end',
-    // backgroundColor:"yellow"
   },
 
   mainContainerModal2: {
@@ -1093,7 +998,6 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     paddingHorizontal: '1%',
-    // maxHeight: theme.palette.height,
     borderBottomColor: '#F8F8F9',
     borderBottomWidth: 1.5,
   },

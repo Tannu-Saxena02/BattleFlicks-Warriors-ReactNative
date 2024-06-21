@@ -24,7 +24,6 @@ const ChangePassword = ({navigation, route}) => {
   const [emailError, setEmailError] = useState('');
   const [emailShow, setEmailShow] = useState(false);
   const [forgotScreenFlag, setforgotScreenFlag] = useState('');
-  // const changePasswordFlag  = "";
 
   let {forgotPasswordFlag} =
     route.params != undefined && route.params ? route.params : '';
@@ -36,10 +35,7 @@ const ChangePassword = ({navigation, route}) => {
    console.log("forgotpass>>>",forgotPasswordFlag);
    setforgotScreenFlag(forgotPasswordFlag)
   }, []);
-  // getChangePasswordFlag=async()=>{
-  //  let userChangePassword = await AsyncStorage.getItem('changePassword');
-  //   setChangePassword(userChangePassword);
-  // }
+  
   const handleValidation = () => {
     if (newPassword == '') {
       setNewPasswordError('New Password cannot be empty');
@@ -98,7 +94,7 @@ const ChangePassword = ({navigation, route}) => {
           backgroundColor: 'purple',
         }}>
         <ImageBackground
-          source={require('../assets/pngImages/images.png')}
+          source={require('../assets/pngImages/verifyimage.jpg')}
           resizeMode="cover"
           style={styles.image}></ImageBackground>
       </View>
@@ -106,7 +102,6 @@ const ChangePassword = ({navigation, route}) => {
         <View
           style={{
             flex: 0.14,
-            //   backgroundColor:"yellow",
             justifyContent: 'center',
             alignSelf: 'center',
           }}>
@@ -118,7 +113,6 @@ const ChangePassword = ({navigation, route}) => {
         <View
           style={{
             flex: 0.14,
-            //   backgroundColor:"yellow",
             justifyContent: 'center',
             alignSelf: 'center',
           }}>
@@ -131,13 +125,11 @@ const ChangePassword = ({navigation, route}) => {
         <View
           style={{
             flex: 0.6,
-            // justifyContent:"flex-start",
-            //  backgroundColor: 'red'
+            
           }}>
           <View
             style={{
               flex: 0.25,
-              // backgroundColor:"red",
               justifyContent: 'center',
               alignSelf: 'center',
             }}>
@@ -145,19 +137,15 @@ const ChangePassword = ({navigation, route}) => {
               style={{
                 fontSize: 15,
                 fontWeight: '500',
-                // color:"blue"
               }}>
               Please enter the email address you'd like your password reset info
               send to
             </Text>
-            {/* <Text>
-        reset info send to
-      </Text> */}
+           
           </View>
           <View
             style={{
               flex: 0.3,
-              // backgroundColor:"blue"
             }}>
             <View
               style={{
@@ -181,7 +169,6 @@ const ChangePassword = ({navigation, route}) => {
                   height: 50,
                   justifyContent: 'center',
                   alignSelf: 'center',
-                  // marginBottom: '4%',
                   fontSize: 13,
                   fontWeight: '300',
                 }}
@@ -201,9 +188,7 @@ const ChangePassword = ({navigation, route}) => {
                   position: 'absolute',
                   zIndex: 1,
                   right: 12,
-                  // marginVertical:"7%",
                   marginTop: '6%',
-                  // backgroundColor:"red"
                 }}>
                 <Entypo name={'mail'} size={23} />
               </View>
@@ -214,8 +199,7 @@ const ChangePassword = ({navigation, route}) => {
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
+                 
                 }}>
                 {emailError}
               </Text>
@@ -226,12 +210,10 @@ const ChangePassword = ({navigation, route}) => {
         <View
           style={{
             flex: 0.6,
-            //  backgroundColor: 'red'
           }}>
           <View
             style={{
               flex: 0.3,
-              // backgroundColor:"blue"
             }}>
             <View
               style={{
@@ -275,9 +257,7 @@ const ChangePassword = ({navigation, route}) => {
                   position: 'absolute',
                   zIndex: 1,
                   right: 12,
-                  // marginVertical:"7%",
                   marginTop: '6%',
-                  // backgroundColor:"red"
                 }}>
                 <Entypo
                   name={newPasswordIconShow ? 'eye' : 'eye-with-line'}
@@ -294,8 +274,7 @@ const ChangePassword = ({navigation, route}) => {
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
+                
                 }}>
                 {newPasswordError}
               </Text>
@@ -304,7 +283,6 @@ const ChangePassword = ({navigation, route}) => {
           <View
             style={{
               flex: 0.3,
-              // backgroundColor:"blue"
             }}>
             <View
               style={{
@@ -328,7 +306,6 @@ const ChangePassword = ({navigation, route}) => {
                   height: 50,
                   justifyContent: 'center',
                   alignSelf: 'center',
-                  // marginBottom: '4%',
                   fontSize: 13,
                   fontWeight: '300',
                 }}
@@ -347,9 +324,7 @@ const ChangePassword = ({navigation, route}) => {
                   position: 'absolute',
                   zIndex: 1,
                   right: 12,
-                  // marginVertical:"7%",
                   marginTop: '6%',
-                  // backgroundColor:"red"
                 }}>
                 <Entypo
                   name={confirmIconShow ? 'eye' : 'eye-with-line'}
@@ -366,8 +341,7 @@ const ChangePassword = ({navigation, route}) => {
                   color: 'red',
                   marginLeft: '6%',
                   fontSize: 12,
-                  // marginLeft: ,
-                  // alignSelf: 'center',
+                 
                 }}>
                 {confirmPasswordError}
               </Text>
@@ -378,18 +352,15 @@ const ChangePassword = ({navigation, route}) => {
       <View
         style={{
           flex: 0.15,
-          //   backgroundColor:"pink"
         }}>
         <TouchableOpacity
           onPress={() => {
-            // navigation.navigate('FirebaseLogin');
             {forgotScreenFlag=="true"?handleValidationEmail():handleValidation()}
           }}
           style={{
             width: '90%',
             height: '80%',
             backgroundColor: '#0379FF',
-            // backgroundColor: 'green',
             marginHorizontal: '0%',
             borderRadius: 10,
             alignSelf: 'center',
@@ -400,7 +371,6 @@ const ChangePassword = ({navigation, route}) => {
           <View
             style={{
               flex: 0.7,
-              //  backgroundColor:"red",
               alignSelf: 'center',
               justifyContent: 'center',
             }}>
@@ -422,7 +392,6 @@ const ChangePassword = ({navigation, route}) => {
       {forgotScreenFlag=="true"?  <View
         style={{
           flex: 0.15,
-          //   backgroundColor:"pink"
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -433,7 +402,6 @@ const ChangePassword = ({navigation, route}) => {
             width: '90%',
             height: '80%',
             backgroundColor: '#00000029',
-            // backgroundColor: 'green',
             marginHorizontal: '0%',
             borderRadius: 10,
             alignSelf: 'center',
@@ -444,7 +412,6 @@ const ChangePassword = ({navigation, route}) => {
           <View
             style={{
               flex: 0.7,
-              //  backgroundColor:"red",
               alignSelf: 'center',
               justifyContent: 'center',
             }}>

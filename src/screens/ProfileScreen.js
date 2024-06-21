@@ -10,7 +10,6 @@ const ProfileScreen = ({navigation}) => {
     setData();
   }, []);
   const setData = async () => {
-    // if(){
     let userName = await AsyncStorage.getItem('username');
     let userEmail = await AsyncStorage.getItem('useremail');
     let userpassword = await AsyncStorage.getItem('userpassword');
@@ -23,7 +22,6 @@ const ProfileScreen = ({navigation}) => {
   }
   console.log('data in async is>>>>>>>>' + userName + userpassword + userEmail);
 
-    // }
   };
   return (
     <View

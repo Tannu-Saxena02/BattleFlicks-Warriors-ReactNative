@@ -16,7 +16,6 @@ const ReadFromFirebase = ({navigation}) => {
   const [Password, setPassword] = useState('');
   const [asyncValue, setAsyncValue] = useState('');
 
-  let arrayData = ['hello', 'Hii', 'Bye'];
 
   useEffect(() => {
     // getDatabase();
@@ -60,28 +59,11 @@ const ReadFromFirebase = ({navigation}) => {
   };
   const getDatabase = async () => {
     try {
-      // const data = firestore()
-      //   .collection('testing')
-      //   .doc('zPoQWGodBcB4APlJDzjB')
-      //   .get()
-      //   .then(documentSnapshot => {
-      //     setDataResponse(documentSnapshot.data());
-      //     console.log(
-      //       'userdetails in state>>>>>>>>>>>',
-      //       dataResponse,
-      //       dataResponse.hobby,
-      //     );
-      //     console.log('User data: ', documentSnapshot.data());
-      //   });
-
+     
       firestore()
-        // .collection('testing')
-        // .get()
-        // .where('age', '>=', 10)
+       
         .collection('testing')
-        // Filter results
-        // .where('age', '==', 33)
-
+        
         .update({
           age: 31,
         })

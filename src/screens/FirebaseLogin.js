@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -9,24 +9,22 @@ import {
   ImageBackground,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import {LoginManager, AccessToken} from 'react-native-fbsdk-next';
-import {StackActions} from '@react-navigation/native';
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
+import { StackActions } from '@react-navigation/native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Google from '../assets/SvgImages/google.svg';
 import Facebook from '../assets/SvgImages/facebook.svg';
-import {TextInput} from 'react-native-paper';
-import {CountryPicker} from 'react-native-country-codes-picker';
+import { TextInput } from 'react-native-paper';
+import { CountryPicker } from 'react-native-country-codes-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import ChangePassword from './ChangePassword';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
-// import { NavigationActions } from 'react-navigation';
-
-const FirebaseLogin = ({navigation}) => {
+const FirebaseLogin = ({ navigation }) => {
   const isFocused = useIsFocused();
   const [email, setEmail] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
@@ -51,7 +49,6 @@ const FirebaseLogin = ({navigation}) => {
   useEffect(() => {
     if (isFocused) {
       clearAllAsyncData();
-      console.log('useEffect');
       // getEmailFlow();
     }
   }, [isFocused]);
@@ -65,10 +62,9 @@ const FirebaseLogin = ({navigation}) => {
       let data = await AsyncStorage.getItem('userNameWithEmail');
       let imagedata = await AsyncStorage.getItem('ImageUri');
 
-      console.log('data is' + data+">>>>"+imagedata);
-      // alert('Success'); // Show success message
+      console.log('data is' + data + ">>>>" + imagedata);
     } catch (error) {
-      console.error('Error:', error); // Log any errors
+      console.error('Error:', error);
     }
   }
   const userForgotPassword = async () => {
@@ -77,25 +73,22 @@ const FirebaseLogin = ({navigation}) => {
     });
   };
   async function onGoogleButtonPress() {
-    // Check if your device supports Google Play
-    await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
-    // Get the users ID token
+    await GoogleSignin.hasPlayServices({ showPlayServicesUpdateDialog: true });
     const userInfo = await GoogleSignin.signIn();
 
-    // Create a Google credential with the token
     const googleCredential = auth.GoogleAuthProvider.credential(
       userInfo.idToken,
     );
 
     console.log(
       'response' +
-        JSON.stringify(googleCredential) +
-        '>>>>>>>>>>>>>>' +
-        JSON.stringify(userInfo),
+      JSON.stringify(googleCredential) +
+      '>>>>>>>>>>>>>>' +
+      JSON.stringify(userInfo),
     );
     await AsyncStorage.setItem('isGoogleSignin', JSON.stringify(true));
     await AsyncStorage.setItem('googleCreds', JSON.stringify(userInfo.user));
-    await AsyncStorage.setItem('ImageUri',userInfo.user.photo);
+    await AsyncStorage.setItem('ImageUri', userInfo.user.photo);
     // Sign-in the user with the credential
     return auth().signInWithCredential(googleCredential);
   }
@@ -118,17 +111,11 @@ const FirebaseLogin = ({navigation}) => {
         isUserLogin.user.email,
         isUserLogin.user.uid,
       );
-      // navigation.navigate('HomeScreen', {
-      //   email: isUserLogin.user.email,
-      //   uid: isUserLogin.user.uid,
-      // });
+
       if (isUserLogin.user.emailVerified) {
         await AsyncStorage.setItem('isEmailSignin', JSON.stringify(true));
         await AsyncStorage.setItem('email', email);
-        // await AsyncStorage.setItem(
-        //   'userNameWithEmail',
-        //   name,
-        // );
+
         navigation.dispatch(StackActions.replace('DrawerNavigation'));
       } else {
         Alert.alert('Please verify your account before login');
@@ -150,8 +137,7 @@ const FirebaseLogin = ({navigation}) => {
           break;
         default:
           Alert.alert(error.message);
-        // setEmailError(error.message);
-        // setPasswordError(error.message)
+
       }
       setEmailShow(true);
       setPasswordShow(true);
@@ -168,7 +154,6 @@ const FirebaseLogin = ({navigation}) => {
     }
     if (email != '' && password != '') {
       handleLoginWithEmail();
-      //here
     }
   };
   const handleMobileValidation = () => {
@@ -188,9 +173,7 @@ const FirebaseLogin = ({navigation}) => {
   const handleLoginWithMobile = async () => {
     console.log('mobile number>>>>>', mobileNumber);
     if (mobileNumber != null && mobileNumber) {
-      // const confirmation = await auth().signInWithPhoneNumber(countryCode+mobileNumber);
-      // setConfirm(confirmation);
-      // console.log("data>"+confirmation+" "+JSON.stringify(confirmation));
+
       navigation.dispatch(StackActions.replace('DrawerNavigation'));
       await AsyncStorage.setItem(
         'mobileNumberWithCode',
@@ -198,7 +181,6 @@ const FirebaseLogin = ({navigation}) => {
       );
       await AsyncStorage.setItem('userName', username);
       await AsyncStorage.setItem('isEmailSignin', JSON.stringify(false));
-      // sendOtp();
     } else Alert.alert('please enter mobile number');
   };
 
@@ -233,14 +215,14 @@ const FirebaseLogin = ({navigation}) => {
       const userData = await facebookProfileData.json();
       console.log(
         'facebook data' +
-          JSON.stringify(facebookCredential) +
-          '::::::::::::::::' +
-          JSON.stringify(userData),
+        JSON.stringify(facebookCredential) +
+        '::::::::::::::::' +
+        JSON.stringify(userData),
       );
       console.log('name and email' + userData.name + ' >>>' + userData.email);
       await AsyncStorage.setItem('isFacebookSignin', JSON.stringify(true));
       await AsyncStorage.setItem('facebookCreds', JSON.stringify(userData));
-      await AsyncStorage.setItem('ImageUri','');
+      await AsyncStorage.setItem('ImageUri', '');
       // Sign-in the user with the credential
       return auth().signInWithCredential(facebookCredential);
     } catch (error) {
@@ -248,7 +230,7 @@ const FirebaseLogin = ({navigation}) => {
     }
   }
   return (
-    <View style={{flex: 1, backgroundColor: '#ffff'}}>
+    <View style={{ flex: 1, backgroundColor: '#ffff' }}>
       <View
         style={{
           flex: 0.6,
@@ -261,23 +243,16 @@ const FirebaseLogin = ({navigation}) => {
       </View>
       <View
         style={[
-          // {marginTop:!emailFlowFlag?'2%':"0%"},
-          // {marginBottom:emailFlowFlag?'1%':"0%"},
+
           {
             flex: 0.1,
-            //   marginTop:'2%',
             marginBottom: '3%',
-            //   // marginVertical:"4%",
-            //   // backgroundColor: 'red',
+
           },
         ]}>
         <Text
           style={{
-            // alignItems: 'center',
-            // justifyContent: 'center',
             alignSelf: 'flex-start',
-
-            // marginTop: '20%',
             marginLeft: '9%',
             fontSize: 27,
             color: '#4267b2',
@@ -290,24 +265,20 @@ const FirebaseLogin = ({navigation}) => {
       <View
         style={{
           flex: 0.5,
-          // backgroundColor:"blue"
         }}>
         {emailFlowFlag ? (
           <View
             style={{
               flex: 0.9,
-              // backgroundColosr:"blue",
               alignItems: 'center',
               justifyContent: 'center',
-              //  flexDirection: 'row',
               marginHorizontal: '4%',
             }}>
             <View
               style={{
                 flex: 0.9,
                 width: '100%',
-                // marginBottom:"6%",
-                // backgroundColor:"pink"
+
               }}>
               <TextInput
                 label={'Enter your Email'}
@@ -325,7 +296,6 @@ const FirebaseLogin = ({navigation}) => {
                   height: 50,
                   justifyContent: 'center',
                   alignSelf: 'center',
-                  // marginBottom: '4%',
                   fontSize: 13,
                   fontWeight: '300',
                 }}
@@ -346,8 +316,7 @@ const FirebaseLogin = ({navigation}) => {
                     color: 'red',
                     marginLeft: '3%',
                     fontSize: 11,
-                    // marginLeft: ,
-                    // alignSelf: 'center',
+
                   }}>
                   {emailError}
                 </Text>
@@ -357,7 +326,6 @@ const FirebaseLogin = ({navigation}) => {
               style={{
                 flex: 0.9,
                 width: '100%',
-                // backgroundColor:"black"
               }}>
               <View
                 style={{
@@ -382,7 +350,6 @@ const FirebaseLogin = ({navigation}) => {
                     height: 50,
                     justifyContent: 'center',
                     alignSelf: 'center',
-                    // marginBottom: '4%',
                     fontSize: 13,
                     fontWeight: '300',
                   }}
@@ -401,9 +368,7 @@ const FirebaseLogin = ({navigation}) => {
                     position: 'absolute',
                     zIndex: 1,
                     right: 12,
-                    // marginVertical:"7%",
                     marginTop: '6%',
-                    // backgroundColor:"red"
                   }}>
                   <Entypo
                     name={iconShow ? 'eye' : 'eye-with-line'}
@@ -421,8 +386,6 @@ const FirebaseLogin = ({navigation}) => {
                     color: 'red',
                     marginLeft: '3%',
                     fontSize: 11,
-                    // marginLeft: ,
-                    // alignSelf: 'center',
                   }}>
                   {passwordError}
                 </Text>
@@ -432,12 +395,7 @@ const FirebaseLogin = ({navigation}) => {
         ) : (
           <View
             style={{
-              // flex: 0.5,
-              // backgroundColor:"blue",
-              // alignItems: 'center',
-              // justifyContent: 'center',
-              // flexDirection: 'row',
-              // marginHorizontal: '6%',
+
               flex: 0.9,
               alignItems: 'center',
               justifyContent: 'center',
@@ -448,18 +406,12 @@ const FirebaseLogin = ({navigation}) => {
                 flex: 0.6,
                 width: '100%',
                 flexDirection: 'row',
-                // justifyContent:"flex-end",
-                // alignContent:"flex-end",
-                // marginBottom:"6%",
-                // backgroundColor:"pink"
               }}>
               <TouchableOpacity
                 onPress={() => setShow(true)}
                 style={{
-                  // marginBottom: '4%',
                   marginRight: '3%',
                   marginTop: '2%',
-                  // backgroundColor:"blue",
                   justifyContent: 'center',
                   alignSelf: 'center',
                 }}>
@@ -469,17 +421,14 @@ const FirebaseLogin = ({navigation}) => {
                   editable={false}
                   mode={'outlined'}
                   placeholderTextColor="#AFAFAF"
-                  // style={styles.input}
                   style={{
                     color: '#4D4848',
-                    //   backgroundColor: '#ffff',
                     width: '100%',
                     height: 52,
                     justifyContent: 'center',
                     alignSelf: 'center',
                     fontSize: 13,
                     fontWeight: '300',
-                    // marginBottom: '4%',
                   }}
                   outlineColor={'#AFAFAF'}
                   theme={{
@@ -501,24 +450,19 @@ const FirebaseLogin = ({navigation}) => {
                 }}
               />
               <TextInput
-                // placeholder='hello'
                 label="Mobile Number"
                 value={mobileNumber}
                 mode={'outlined'}
                 keyboardType="numeric"
-                // placeholderTextColor="red"
                 onChangeText={text => {
                   setMobileNumber(text);
                   setMobileShow(false);
                 }}
                 style={{
-                  // color: 'red',
                   width: '80%',
                   height: 50,
                   justifyContent: 'center',
                   alignSelf: 'center',
-                  // marginBottom: '4%'
-                  // backgroundColor:"red",
                   color: '#4D4848',
                   fontSize: 13,
                   fontWeight: '300',
@@ -530,8 +474,6 @@ const FirebaseLogin = ({navigation}) => {
                     primary: '#B5B5B5',
                     text: '#4D4848',
                     background: '#FFFF',
-
-                    // placeholder: '#989898',
                   },
                 }}
               />
@@ -540,9 +482,7 @@ const FirebaseLogin = ({navigation}) => {
               <Text
                 style={{
                   color: 'red',
-                  // marginRight: '16%',
                   fontSize: 12,
-                  // marginLeft: ,
                   alignSelf: 'center',
                 }}>
                 {mobileError}
@@ -552,8 +492,6 @@ const FirebaseLogin = ({navigation}) => {
               style={{
                 flex: 0.9,
                 width: '100%',
-                // marginBottom:"6%",
-                // backgroundColor:"pink"
               }}>
               <View
                 style={{
@@ -577,7 +515,6 @@ const FirebaseLogin = ({navigation}) => {
                     height: 50,
                     justifyContent: 'center',
                     alignSelf: 'center',
-                    // marginBottom: '4%',
                     fontSize: 13,
                     fontWeight: '300',
                   }}
@@ -596,14 +533,11 @@ const FirebaseLogin = ({navigation}) => {
                     position: 'absolute',
                     zIndex: 1,
                     right: 12,
-                    // marginVertical:"7%",
                     marginTop: '6%',
-                    // backgroundColor:"red"
                   }}>
                   <FontAwesome5
                     name={'user-alt'}
                     color={'grey'}
-                    // style={{backgroundColor:"grey"}}
                     size={23}
                     onPress={() => {
                       setIconShow(!iconShow);
@@ -618,8 +552,6 @@ const FirebaseLogin = ({navigation}) => {
                     color: 'red',
                     marginLeft: '3%',
                     fontSize: 11,
-                    // marginLeft: ,
-                    // alignSelf: 'center',
                   }}>
                   {userError}
                 </Text>
@@ -635,9 +567,7 @@ const FirebaseLogin = ({navigation}) => {
           }}
           style={{
             flex: 0.06,
-            // justifyContent:"flex-end"
             alignSelf: 'flex-end',
-            // backgroundColor:"red",
             justifyContent: 'flex-start',
             marginBottom: '3%',
           }}>
@@ -655,18 +585,15 @@ const FirebaseLogin = ({navigation}) => {
       <View
         style={{
           flex: 0.12,
-          // backgroundColor:"pink"
         }}>
         <TouchableOpacity
           onPress={() => {
-            // handleEmailValidation();
             emailFlowFlag ? handleEmailValidation() : handleMobileValidation();
           }}
           style={{
             width: '90%',
             height: '95%',
             backgroundColor: '#4fb9fc',
-            // backgroundColor: '#0379FF',
             marginHorizontal: '10%',
             borderRadius: 20,
             alignSelf: 'center',
@@ -689,7 +616,6 @@ const FirebaseLogin = ({navigation}) => {
       <View
         style={{
           flex: 0.05,
-          // backgroundColor:"red",
           marginBottom: '2%',
         }}>
         <Text
@@ -707,12 +633,8 @@ const FirebaseLogin = ({navigation}) => {
         style={{
           flex: 0.12,
           marginBottom: '2%',
-          // backgroundColor:"pink"
         }}>
         <TouchableOpacity
-          // onPress={() => {
-          //   navigation.navigate('RegisterationScreen');
-          // }}
 
           onPress={() => {
             setEmailFlowFlag(!emailFlowFlag);
@@ -720,9 +642,7 @@ const FirebaseLogin = ({navigation}) => {
           style={{
             width: '90%',
             height: '95%',
-            // backgroundColor: '#4267b2',
             backgroundColor: 'skyblue',
-            // backgroundColor: '#1877f2',
             marginHorizontal: '10%',
             borderRadius: 20,
             alignSelf: 'center',
@@ -735,14 +655,14 @@ const FirebaseLogin = ({navigation}) => {
               name={'phone'}
               color={'white'}
               size={25}
-              style={{marginVertical: '2%'}}
+              style={{ marginVertical: '2%' }}
             />
           ) : (
             <AntDesign
               name={'mail'}
               color={'white'}
               size={25}
-              style={{marginVertical: '2%'}}
+              style={{ marginVertical: '2%' }}
             />
           )}
 

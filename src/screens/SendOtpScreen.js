@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,9 +10,9 @@ import {
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {CountryPicker} from 'react-native-country-codes-picker';
-import {TextInput} from 'react-native-paper'
-const SendOtpScreen = ({navigation}) => {
+import { CountryPicker } from 'react-native-country-codes-picker';
+import { TextInput } from 'react-native-paper'
+const SendOtpScreen = ({ navigation }) => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [confirmData, setConfirmData] = useState('');
   const [show, setShow] = useState(false);
@@ -20,19 +20,17 @@ const SendOtpScreen = ({navigation}) => {
   const [mobileNumberError, setMobileNumberError] = useState('');
   const [mobileErrorShow, setMobileErrorShow] = useState(false);
 
-  const handleValidation =async () => {
-    console.log('mobile number>>>>>', mobileNumber);
+  const handleValidation = async () => {
     if (mobileNumber != null && mobileNumber) {
-      await AsyncStorage.setItem("mobileNumberWithCode", countryCode+mobileNumber);
+      await AsyncStorage.setItem("mobileNumberWithCode", countryCode + mobileNumber);
       navigation.navigate('VerifyOtpScreen');
       // sendOtp();
-    } else
-    {
-      
-        if (mobileNumber == '') {
-          setMobileNumberError('mobile number cannot be empty');
-          setMobileErrorShow(true);
-        }
+    } else {
+
+      if (mobileNumber == '') {
+        setMobileNumberError('mobile number cannot be empty');
+        setMobileErrorShow(true);
+      }
     }
   };
   // const sendOtp=async()=>{
@@ -52,21 +50,19 @@ const SendOtpScreen = ({navigation}) => {
   //  }
   // }
   return (
-    <View style={{flex: 1}}>
-        <View
+    <View style={{ flex: 1 }}>
+      <View
         style={{
           flex: 0.6,
-          // backgroundColor: 'purple',
         }}>
         <ImageBackground
-          source={require('../assets/pngImages/verify3.png')}
+          source={require('../assets/pngImages/verify2.png')}
           resizeMode="cover"
           style={styles.image}></ImageBackground>
       </View>
       <View
         style={{
           flex: 0.1,
-          // backgroundColor:"red",
           alignItems: 'center',
           justifyContent: 'center',
         }}>
@@ -74,10 +70,9 @@ const SendOtpScreen = ({navigation}) => {
           style={{
             alignItems: 'center',
             justifyContent: 'center',
-            //   marginTop: '10%',
             fontSize: 30,
-            color: 'green',
-            fontWeight: 'bold',
+            color: 'grey',
+            fontWeight: '500',
           }}>
           Enter Mobile Number
         </Text>
@@ -85,19 +80,15 @@ const SendOtpScreen = ({navigation}) => {
       <View
         style={{
           flex: 0.2,
-          // backgroundColor:"blue",
           alignItems: 'center',
           justifyContent: 'center',
           flexDirection: 'row',
           marginHorizontal: '6%',
         }}>
         <TouchableOpacity onPress={() => setShow(true)} style={{
-          marginBottom:"5%",
-          width:"30%",
-          // height:100
-          // backgroundColor:"red"
-          // marginRight:"3%",
-          // padding:"3%"
+          marginBottom: "5%",
+          width: "30%",
+
         }}>
           <TextInput
             value={countryCode}
@@ -105,20 +96,9 @@ const SendOtpScreen = ({navigation}) => {
             editable={false}
             mode={'outlined'}
             placeholderTextColor="#AFAFAF"
-            // style={styles.input}
-           
+
             style={{
               color: '#4D4848',
-
-              //   backgroundColor: '#ffff',
-              // width: '80%',
-              // height: 56,
-              // justifyContent: 'center',
-              // alignSelf: 'center',
-              // alignContent:"center",
-              // textAlign:"center",
-              // paddingVertical:"1%"
-              // marginBottom: '4%',
             }}
             outlineColor={'#AFAFAF'}
             theme={{
@@ -138,64 +118,56 @@ const SendOtpScreen = ({navigation}) => {
             setCountryCode(item.dial_code);
             setShow(false);
           }}
-          style={{justifyContent:"center",alignItems:"center",textAlign:"center"}}
-          // searchMessage={'hello'}
+          style={{ justifyContent: "center", alignItems: "center", textAlign: "center" }}
         />
-        <View style={{width:"70%"}}>
-        <TextInput
-        // placeholder='hello'
-          label="Mobile Number"
-          value={mobileNumber}
-          mode={'outlined'}
-          keyboardType='numeric'
-          // placeholderTextColor="red"
-          onChangeText={text => {
-            setMobileNumber(text);
-            setMobileErrorShow(false);
-          }}
-          style={{
-            color: 'red',
-            width: '90%',
-            height: 54,
-            justifyContent: 'center',
-            alignSelf: 'center',
-            // marginBottom: '3%',
-          }}
-          underlineColorAndroid="transparent"
-          outlineColor={'#AFAFAF'}
-          theme={{
-            colors: {
-              primary: '#B5B5B5',
-              text: '#4D4848',
-              background: '#F4F4F4',
+        <View style={{ width: "70%" }}>
+          <TextInput
+            label="Mobile Number"
+            value={mobileNumber}
+            mode={'outlined'}
+            keyboardType='numeric'
+            onChangeText={text => {
+              setMobileNumber(text);
+              setMobileErrorShow(false);
+            }}
+            style={{
+              color: 'red',
+              width: '90%',
+              height: 54,
+              justifyContent: 'center',
+              alignSelf: 'center',
+            }}
+            underlineColorAndroid="transparent"
+            outlineColor={'#AFAFAF'}
+            theme={{
+              colors: {
+                primary: '#B5B5B5',
+                text: '#4D4848',
+                background: '#F4F4F4',
 
-              // placeholder: '#989898',
-            },
-          }}
-        />
-        <View style={{height:20}}>
-             {mobileErrorShow ? (
+              },
+            }}
+          />
+          <View style={{ height: 20 }}>
+            {mobileErrorShow ? (
               <Text
                 style={{
                   color: 'red',
                   marginLeft: '7%',
                   fontSize: 12,
 
-                  // marginLeft: ,
-                  // alignSelf: 'center',
                 }}>
                 {mobileNumberError}
               </Text>
             ) : null}
-            </View>
-            </View>
-    
+          </View>
+        </View>
+
       </View>
-     
+
       <View
         style={{
           flex: 0.1,
-          // backgroundColor:"pink"
         }}>
         <TouchableOpacity
           onPress={() => {
@@ -204,7 +176,7 @@ const SendOtpScreen = ({navigation}) => {
           style={{
             width: '90%',
             height: '70%',
-            backgroundColor: 'green',
+            backgroundColor: '#1877f2',
             marginHorizontal: '10%',
             borderRadius: 10,
             alignSelf: 'center',
@@ -230,10 +202,6 @@ const styles = StyleSheet.create({
   input: {
     height: 50,
     width: '70%',
-    // margin: 12,
-    // borderWidth: 1,
-    // padding: 10,
-    // borderRadius:10,
     alignSelf: 'center',
   },
   image: {

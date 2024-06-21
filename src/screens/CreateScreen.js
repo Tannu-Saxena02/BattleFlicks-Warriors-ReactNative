@@ -64,9 +64,7 @@ const CreateScreen = ({navigation}) => {
     try {
       if (inputData != '') {
         console.log('list is', list);
-        // const index=2;
         const index = list == undefined || list.length == 0 ? 1 : list.length;
-        // const index=3;
         console.log('index to add card is>>>>>>>>>>>>>', index);
         const response = await database().ref(`todo/${index}`).set({
           value: inputData,
@@ -119,7 +117,6 @@ const CreateScreen = ({navigation}) => {
         });
         setInputData('');
         setIsUpdateData(false);
-        // console.log('response is>>>>>>>>>>>', response);
       } else {
         Alert.alert('Enter Value and try again!!');
       }
@@ -132,14 +129,10 @@ const CreateScreen = ({navigation}) => {
       const data = await database()
         .ref('todo')
         .on('value', tempData => {
-          // let listData=[];
           const listData = tempData.val();
 
           const data = listData
             ? Object.keys(listData).map(key => ({
-                //map collection of object into array
-                //from database response in object format...key is the index of object 0,1,2,3...in array
-                // which i have stored ,listData[key]is the data on that index in object,
                 id: key,
                 ...listData[key],
               }))
@@ -172,7 +165,6 @@ const CreateScreen = ({navigation}) => {
         onPress={()=>{navigation.openDrawer();}}
           style={{
             flex: 0.2,
-            // backgroundColor: 'red',
             marginTop:"5%"
           }}>
           <FontAwesome name={'bars'} size={30} 
@@ -181,7 +173,6 @@ const CreateScreen = ({navigation}) => {
         <View
           style={{
             flex: 0.1,
-            // backgroundColor:"pink"
           }}>
           <Text style={styles.headerText}>Task List</Text>
         </View>
@@ -189,7 +180,6 @@ const CreateScreen = ({navigation}) => {
         <View
           style={{
             flex: 0.2,
-            // backgroundColor:"blue"
           }}>
           <TextInput
             style={styles.input}
@@ -203,8 +193,6 @@ const CreateScreen = ({navigation}) => {
         <View
           style={{
             flex: 0.2,
-
-            // marginTop:"3%"
           }}>
           {isUpdateData ? (
             <TouchableOpacity
@@ -242,7 +230,6 @@ const CreateScreen = ({navigation}) => {
         <View
           style={{
             flex: 1,
-            // backgroundColor: 'pink'
           }}>
           {list.map((item, index) => {
             console.log('map function', item);
@@ -253,7 +240,6 @@ const CreateScreen = ({navigation}) => {
                     <Text style={styles.cardText}>{item.value}</Text>
                   </View>
                   <TouchableOpacity
-                    // onLongPress={()=>{handleCardLongPress(item.id,item.value)}}
                     onPress={() => {
                       handleCardLongPress(item.id, item.value);
                     }}
@@ -276,7 +262,6 @@ const CreateScreen = ({navigation}) => {
                     }}
                     style={{
                       flex: 0.2,
-                      // backgroundColor:"blue"
                     }}>
                     <AntDesign
                       name={'edit'}
@@ -292,47 +277,7 @@ const CreateScreen = ({navigation}) => {
               );
             }
           })}
-          {/* {list!=undefined||list.length>0?
-           <FlatList
-            data={list}
-            renderItem={item => {
-              const cardIndex = item.index;
-              console.log('item is>>>>>', item);
-              if (item.item != null) {
-                return (
-                  <TouchableOpacity
-                    onPress={() => {
-                      handleCardPress(cardIndex, item.item.value);
-                    }}
-                    onLongPress={()=>{handleCardLongPress(cardIndex,item.item.value)}}
-                    style={{
-                      borderRadius: 20,
-                      borderWidth: 0.5,
-                      width: '90%',
-                      alignSelf: 'center',
-                      paddingVertical: '4%',
-                      backgroundColor: '#ffff',
-                      marginBottom: '3%',
-                    }}>
-                    <Text
-                      style={{
-                        justifyContent: 'center',
-                        // alignSelf:"center",
-                        marginLeft: '4%',
-                        fontSize: 16,
-                        fontWeight: '300',
-                      }}>
-                      {item.item}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              }
-            }}
-          /> 
-          : 
-          <Text style={{fontSize:30,color:"black",fontWeight:'bold',justifyContent:'center',
-          alignItems:'center'}}>No Data Available</Text>
-          } */}
+         
         </View>
       </View>
     </KeyboardAwareScrollView>

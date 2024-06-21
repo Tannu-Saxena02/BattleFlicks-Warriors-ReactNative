@@ -1,14 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, BackHandler} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, BackHandler } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Lottie from 'lottie-react-native';
 import musicFile from '../assets/audioFiles/winSound.mp3';
 import loseSound from '../assets/audioFiles/lose.mp3';
 import Sound from 'react-native-sound';
-import {StackActions} from '@react-navigation/native';
+import { StackActions } from '@react-navigation/native';
 
-const GameResultScreen = ({route, navigation}) => {
-  const {userScore, computerScore} = route.params;
+const GameResultScreen = ({ route, navigation }) => {
+  const { userScore, computerScore } = route.params;
   const [seconds, setSeconds] = useState(10);
   const [sound, setSound] = useState();
   const audio =
@@ -16,7 +16,7 @@ const GameResultScreen = ({route, navigation}) => {
       ? require('../assets/audioFiles/winaudio.mp3')
       : require('../assets/audioFiles/lose.mp3');
   useEffect(() => {
-  
+
     const music = async () => {
       const soundFile = new Sound(audio, error => {
         console.log('=============================sound');
@@ -38,22 +38,21 @@ const GameResultScreen = ({route, navigation}) => {
       console.log('out>>>>.' + JSON.stringify(soundFile));
     };
     music();
-    // return () => {
-    //   // backHandler.remove();
-    //   if (sound) {
-    //     sound.release();
-    //   }
-    // };
+
     const backAction = () => {
       BackHandler.exitApp();
-      navigation.pop(2);
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'InitialGameScreen' }],
+      });
+
     }
-      const backHandler = BackHandler.addEventListener(
-        'hardwareBackPress',
-        backAction,
-      );
-      return () => backHandler.remove();
-      
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+    return () => backHandler.remove();
+
   }, []);
   useEffect(() => {
     if (seconds > 0) {
@@ -61,13 +60,12 @@ const GameResultScreen = ({route, navigation}) => {
         setSeconds(prevSeconds => prevSeconds - 1);
       }, 1000);
 
-      // Clean up the interval when the component unmounts
       return () => clearInterval(interval);
     }
   }, []);
 
   return (
-    <View style={{backgroundColor: 'black', flex: 1}}>
+    <View style={{ backgroundColor: '#242841ff', flex: 1 }}>
       {userScore == 5 ? (
         <Lottie
           source={require('../assets/lottieFiles/confetiLottie.json')}
@@ -106,10 +104,10 @@ const GameResultScreen = ({route, navigation}) => {
             borderColor: '#6a5300',
             backgroundColor: '#f9d835',
           }}>
-          <Text style={{color: '#6a5300', fontWeight: 'bold', fontSize: 15}}>
+          <Text style={{ color: '#6a5300', fontWeight: 'bold', fontSize: 15 }}>
             You :{' '}
           </Text>
-          <Text style={{color: '#6a5300', fontWeight: 'bold', fontSize: 15}}>
+          <Text style={{ color: '#6a5300', fontWeight: 'bold', fontSize: 15 }}>
             {userScore}
           </Text>
         </View>
@@ -125,10 +123,10 @@ const GameResultScreen = ({route, navigation}) => {
             borderColor: '#6a5300',
             backgroundColor: '#f9d835',
           }}>
-          <Text style={{color: '#6a5300', fontWeight: 'bold', fontSize: 14}}>
+          <Text style={{ color: '#6a5300', fontWeight: 'bold', fontSize: 14 }}>
             Computer :{' '}
           </Text>
-          <Text style={{color: '#6a5300', fontWeight: 'bold', fontSize: 14}}>
+          <Text style={{ color: '#6a5300', fontWeight: 'bold', fontSize: 14 }}>
             {computerScore}
           </Text>
         </View>
@@ -168,7 +166,6 @@ const GameResultScreen = ({route, navigation}) => {
             }}>
             You lost
           </Text>
-          {/* <Text style={styles.exclamationSymbol}>&#x0021;</Text> */}
           {/* <Text style={styles.exclamationSymbol}>❗️</Text> */}
           <FontAwesome5
             name="exclamation"
@@ -244,31 +241,23 @@ const GameResultScreen = ({route, navigation}) => {
         }}>
         <TouchableOpacity
           onPress={() => {
-          //   navigation.reset({
-          //     index: 0,
-          //     routes: [{name: 'GameScreen'}],
-          //   });
-            navigation.navigate('GameScreen');
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'GameScreen' }],
+            });
           }}
           disabled={seconds >= 0}
-          // onPress={navigation.navigate('GameScreen')}
           style={{
             borderRadius: 10,
             padding: '3.3%',
             backgroundColor: '#a9ff03',
             marginHorizontal: '7%',
             marginBottom: '5%',
-            // position: 'absolute',
-            // bottom: -10,
-            // left: 0,
-            // right: 0,
-            // justifyContent: 'center',
-            // alignSelf: 'center',
-            // marginBottom: '5%',
+
           }}>
           <Text
             style={{
-              color: 'black',
+              color: '#242841ff',
               fontSize: 17,
               fontWeight: 'bold',
               justifyContent: 'center',
@@ -281,21 +270,14 @@ const GameResultScreen = ({route, navigation}) => {
 
         <TouchableOpacity
           disabled={seconds >= 0}
-          onPress={() =>  navigation.dispatch(StackActions.replace('DrawerNavigation'))}
+          onPress={() => navigation.dispatch(StackActions.replace('DrawerNavigation'))}
           style={{
             borderRadius: 10,
             padding: '3.3%',
-            // backgroundColor: '#f9d835',
             marginHorizontal: '7%',
             borderColor: '#9E75CA',
             borderWidth: 2,
-            // position: 'absolute',
-            // bottom: 0,
-            // left: 0,
-            // right: 0,
-            // justifyContent: 'center',
-            // alignSelf: 'center',
-            // marginBottom: '5%',
+
           }}>
           <Text
             style={{
@@ -335,7 +317,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     marginTop: '7%',
-    // backgroundColor:"white"
   },
   exclamationSymbol: {
     fontSize: 26,
