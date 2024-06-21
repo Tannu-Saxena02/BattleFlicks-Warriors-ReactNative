@@ -1,3 +1,43 @@
+# RPS Warrior App
+
+## Project Overview
+RPS Warrior is an interactive React Native application designed to offer users a fun and engaging experience through a classic game of Rock Paper Scissors. The app includes robust authentication mechanisms, profile management, and gameplay features. Users can easily sign up or log in using their email, mobile number, Google, or Facebook accounts. Once authenticated, users can upload and manage their profile pictures using their device's camera or gallery.
+
+## Features
+- **User Authentication:**
+  - Email and mobilenumber flow authentication using Firebase.
+  - Google and Facebook login via Firebase Authentication.
+  - User details stored into firebase.
+
+- **Profile Management:**
+  - Users can view,edit and delete their profile photo.
+  - Profile photos can be uploaded using the camera or gallery picker.
+  - Used Firebase Storage to store the user's profile image.
+
+- **Gameplay:**
+  - Play Rock Paper Scissors against the computer.
+  - Used animation in Game to give better user expersience.
+  - Show up the Scores to the user that He/She lose/win the match
+  - Used lottie animation
+  - used Sound effect to give best gaming experience.
+
+- **Animations:**
+  - Smooth transitions and animations implemented using React Native Animations.
+  - Used lottie animation.
+
+## Technologies Used
+- **React Native:** For building the mobile application.
+- **Firebase:**
+  - Authentication for user login.
+  - Storage for profile photos.
+- **React Native Animations:** For enhancing user experience with animations.
+- **React Native Camera and Gallery Picker:** For uploading profile photos.
+
+
+
+
+
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
@@ -50,19 +90,10 @@ This is one way to run your app — you can also run it directly from within And
 
 Now that you have successfully run the app, let's modify it.
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
 ## Congratulations! :tada:
 
-You've successfully run and modified your React Native App. :partying_face:
+You've successfully run App. :partying_face:
 
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
 
 # Troubleshooting
 
