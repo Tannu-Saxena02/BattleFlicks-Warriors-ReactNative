@@ -1,7 +1,7 @@
 # RPS Warrior App
 
 ## Project Overview
-RPS Warrior is an interactive React Native application designed to offer users a fun and engaging experience through a classic game of Rock Paper Scissors. The app includes robust authentication mechanisms, profile management, and gameplay features. Users can easily sign up or log in using their email, mobile number, Google, or Facebook accounts. Once authenticated, users can upload and manage their profile pictures using their device's camera or gallery.
+RPS Warrior is an interactive React Native application designed to offer users a fun and engaging experience through a classic game of Rock Paper Scissors. The app includes robust authentication mechanisms, profile management, and gameplay features. Users can easily sign up or log in using their email, mobile number, Google, or Facebook accounts. Once authenticated, users can upload and manage their profile pictures using their device's camera or gallery 💯.
 
 ## Features
 - **User Authentication:**
