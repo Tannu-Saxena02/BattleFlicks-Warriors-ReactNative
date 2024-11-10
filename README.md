@@ -1,7 +1,7 @@
 # BattleFlicks - Warrior App
 
 ## Project Overview
-RPS Warrior is an interactive React Native application designed to offer users a fun and engaging experience through a classic game of Rock Paper Scissors. The app includes robust authentication mechanisms, profile management, and gameplay features. Users can easily sign up or log in using their email, mobile number, Google, or Facebook accounts. Once authenticated, users can upload and manage their profile pictures using their device's camera or gallery, user can easily play their gsmes smootly with smooth transition and animation 💯.
+RPS Warrior is an interactive React Native application designed to offer users a fun and engaging experience through a classic game of Rock Paper Scissors. The app includes robust authentication mechanisms, profile management, and gameplay features. Users can easily sign up or log in using their email, mobile number, Google, or Facebook accounts. Once authenticated, users can upload and manage their profile pictures using their device's camera or gallery, user can easily play their games smootly with smooth transition and animation 💯.
 
 ## Features
 - **User Authentication:**
@@ -67,7 +67,7 @@ RPS Warrior is an interactive React Native application designed to offer users a
  </div><br><br><br>
 
  
-*   **Login Screen with Email & Mobile Flow**
+*   **Login Screen with Email, Mobile, Google, Facebook login**
 <div align="center"> 
 <img src="https://github.com/user-attachments/assets/6d7bf4de-0b52-4ec5-ade8-3c1d07945a51" alt="Image description" width="200" height="400">
 <img src="https://github.com/user-attachments/assets/6197ac33-e5aa-41cc-b5d2-b5a050b682ec" alt="Image description" width="200" height="400"> 
